@@ -1,19 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace InventorySystemWebUI.Pages;
-
-public class IndexModel : PageModel
+namespace InventorySystemWebUI.Pages
 {
-    private readonly ILogger<IndexModel> _logger;
-
-    public IndexModel(ILogger<IndexModel> logger)
+    public class IndexModel : PageModel
     {
-        _logger = logger;
-    }
-
-    public void OnGet()
-    {
-
+        public ActionResult OnGet()
+        {
+            return Page();
+        }
     }
 }
