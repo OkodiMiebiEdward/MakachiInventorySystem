@@ -1,0 +1,55 @@
+﻿@page
+@model InventorySystemWebUI.Pages.Module.UserManagement.CreateRoleModel
+@{
+    ViewData["Title"] = "Create New Role";
+}
+
+<div style="margin-left:60px" class="d-flex justify-content-center align-items-center">
+    <div class="content-body container px-5">
+        <div class="content-header row">
+            <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block">Create New Role</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="bg-white">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Enter Role Name</label>
+                            <input type="text" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Select Priveledges</label>
+                            <select class="form-control">
+                                <option class="form-control">Option1</option>
+                                <option class="form-control">Option2</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Display of Priveledges selected</label>
+                            <select class="form-control">
+                                <option class="form-control">Option1</option>
+                                <option class="form-control">Option2</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary mt-3 mb-3" style="margin-left:10px">Save</button>
+            </form>
+        </section>
+       
+    </div>
+</div>
+
