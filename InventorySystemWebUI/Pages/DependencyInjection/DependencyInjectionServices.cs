@@ -25,7 +25,7 @@
                 o.LoginPath = "/Identity/Account/Login";
                 o.SlidingExpiration = true;
                 o.Cookie.IsEssential = true;
-                o.ForwardAuthenticate = "Identity.Application";
+                //o.ForwardAuthenticate = "Identity.Application";
                 o.Events.OnValidatePrincipal = context =>
                 {
                     if (context.Properties.Items.TryGetValue("OpenIdConnect.Code.RedirectUri", out string redirectUri))
@@ -36,6 +36,14 @@
                     }
                     return Task.CompletedTask;
                 };
+            }).AddCookie("Identity.Application", o =>
+            {
+                // Configure the Identity.Application cookie settings
+                o.Cookie.Name = "Identity.Application";
+                o.Cookie.HttpOnly = true;
+                o.ExpireTimeSpan = TimeSpan.FromHours(5);
+                o.LoginPath = "/Identity/Account/Login";
+                o.SlidingExpiration = true;
             });
         }
 
