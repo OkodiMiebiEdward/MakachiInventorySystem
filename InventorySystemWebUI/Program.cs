@@ -1,4 +1,5 @@
 using InventorySystemWebUI.Pages.DependencyInjection;
+using InventorySystemWebUI.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -8,6 +9,7 @@ builder.Services.AddSession(sess => sess.IdleTimeout = TimeSpan.FromHours(5));
 builder.Services.AddHttpClient("MyHttpClient", client => client.Timeout = TimeSpan.FromMinutes(2));
 builder.SetAuthentication();
 builder.SetCookiePolicy();
+builder.Services.AddSingleton<IGeneralService, GeneralService>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
