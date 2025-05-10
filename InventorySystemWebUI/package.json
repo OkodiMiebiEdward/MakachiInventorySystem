@@ -1,0 +1,21 @@
+{
+  "name": "inventorysystemwebui",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "jquery": "^3.7.1",
+    "toastr": "^2.1.4"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.32",
+    "@types/toastr": "^2.1.43",
+    "typescript": "^5.8.3"
+  }
+}
