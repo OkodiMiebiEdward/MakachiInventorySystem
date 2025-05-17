@@ -33,32 +33,40 @@ namespace InventorySystemWebUI.Pages
 
         public async Task<ActionResult> OnPost()
         {
-            if (!ModelState.IsValid)
-                return Page();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return Page();
 
-             using (HttpClient client = new HttpClient())
-             {
-               
-                var endPoint = apiUrl + "/api/Identity/CreateUser";
-                StringContent body = new StringContent(JsonConvert.SerializeObject(User)
-                    , Encoding.UTF8, "application/json");
-
-                using (var Response = await client.PostAsync(endPoint, body))
+                using (HttpClient client = new HttpClient())
                 {
-                    if (Response.StatusCode == System.Net.HttpStatusCode.Created)
+                    var endPoint = apiUrl + "/api/Identity/CreateUser";
+                    StringContent body = new StringContent(JsonConvert.SerializeObject(User)
+                        , Encoding.UTF8, "application/json");
+
+                    using (var Response = await client.PostAsync(endPoint, body))
                     {
-                        var json = await Response.Content.ReadAsStringAsync();
-                        ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
-                        if (ResponseModel.Status == "Success")
+                        if (Response.StatusCode == System.Net.HttpStatusCode.Created)
                         {
+                            var json = await Response.Content.ReadAsStringAsync();
+                            ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
+                            return Page();
+                        }
+                        else
+                        {
+                            ResponseModel.Status = "Failed";
+                            ResponseModel.Description = "User creation failed";
                             return Page();
                         }
                     }
-                    else
-                        return Page();
                 }
-             }
-            return Page();
+            }
+            catch (Exception)
+            {
+                ResponseModel.Status = "ServerError";
+                ResponseModel.Description = "An unexpected error occurred";
+                return Page();
+            }
         }
     }
 }
