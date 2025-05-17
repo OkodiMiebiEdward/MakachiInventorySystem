@@ -22,6 +22,9 @@ jQuery(() => {
     else if (status === "Failed") {
         toastr.error(description);
     }
+    else {
+        toastr.error(description);
+    }
 });
 $('#check').on('click', () => {
     const username = $('#username').val();
