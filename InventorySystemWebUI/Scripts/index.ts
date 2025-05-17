@@ -19,9 +19,12 @@ jQuery(():void => {
         toastr.success(description);
         setTimeout(() => {
             window.location.href = "/Login";
-        },5000)
+        }, 5000)
     }
     else if (status === "Failed") {
+        toastr.error(description);
+    }
+    else {
         toastr.error(description);
     }
 });
