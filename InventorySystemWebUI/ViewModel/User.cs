@@ -29,5 +29,5 @@ public class User
     [Required(ErrorMessage = "Phone number is required")]
     [StringLength(11, ErrorMessage = "The phone number must not exceed 11 digits.")]
     [RegularExpression(@"^\d{11}$", ErrorMessage = "The phone number must be exactly 11 digits.")]
-    public string Phonenumber { get; set; }
+    public string Phonenumber { get; set; } = "";
 }
