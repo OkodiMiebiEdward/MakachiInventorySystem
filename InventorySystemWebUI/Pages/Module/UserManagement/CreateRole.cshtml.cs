@@ -12,6 +12,7 @@ namespace InventorySystemWebUI.Pages.Module.UserManagement
 
         public ActionResult OnPost()
         {
+            string token = HttpContext.Session.GetString("AuthToken")!;
             return Page();
         }
     }
