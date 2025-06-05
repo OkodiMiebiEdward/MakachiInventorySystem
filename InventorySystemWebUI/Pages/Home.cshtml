@@ -5,6 +5,135 @@
 }
 
 
+<style>
+    body, .dashboard-bg {
+        background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    }
+    .scale-hover:hover, .scale-hover:focus {
+        transform: scale(1.08);
+        z-index: 2;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .btn-dashboard {
+        min-height: 90px;
+        font-size: 1.15rem;
+        font-weight: 500;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .btn-gradient {
+        background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff !important;
+        border: none;
+    }
+    .btn-gradient:hover, .btn-gradient:focus {
+        background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+        color: #fff !important;
+    }
+    .btn-orange {
+        background: linear-gradient(90deg, #ff8008 0%, #ffc837 100%);
+        color: #fff !important;
+        border: none;
+    }
+    .btn-orange:hover, .btn-orange:focus {
+        background: linear-gradient(90deg, #ffc837 0%, #ff8008 100%);
+        color: #fff !important;
+    }
+    .btn-teal {
+        background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+        color: #fff !important;
+        border: none;
+    }
+    .btn-teal:hover, .btn-teal:focus {
+        background: linear-gradient(90deg, #38ef7d 0%, #11998e 100%);
+        color: #fff !important;
+    }
+</style>
+
+<div class="dashboard-bg w-100 min-vh-100">
+    <div style="margin-left:100px" class="mt-3 d-flex justify-content-center align-items-center">
+        <section class="shadow-lg rounded-4 p-4" style="width:1000px">
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/UserManagement/RoleList" class="btn btn-gradient w-100 p-3 scale-hover btn-dashboard">
+                        <i class="bi bi-bar-chart-fill mb-2"></i> 
+                        Total Sales <br /> today/Week/Month
+                    </a>
+                </div>
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/UserManagement/StaffActivities" class="btn btn-orange w-100 p-3 scale-hover btn-dashboard">
+                         <i class="bi bi-receipt mb-2"></i>
+                        Total transactions <br /> today/Week/Month
+                    </a>
+                </div>
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/Coupons" class="btn btn-teal w-100 p-3 scale-hover btn-dashboard">
+                        <!-- <i class="bi bi-star-fill mb-2"></i> -->
+                        Top Selling Products
+                    </a>
+                </div>
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/Coupons" class="btn btn-danger w-100 p-3 scale-hover btn-dashboard">
+                        <!-- <i class="bi bi-graph-up-arrow mb-2"></i> -->
+                        Profit Margin
+                    </a>
+                </div>
+            </div>
+
+            <div class="row g-4 justify-content-center mt-2">
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/UserManagement/RoleList" class="btn btn-info w-100 p-3 scale-hover btn-dashboard">
+                        <!-- <i class="bi bi-box-seam mb-2"></i> -->
+                        Total Stock quantity
+                    </a>
+                </div>
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/UserManagement/StaffActivities" class="btn btn-dark w-100 p-3 scale-hover btn-dashboard">
+                        <!-- <i class="bi bi-plus-square mb-2"></i> -->
+                        Recently added products <br/> today/Week/Month
+                    </a>
+                </div>
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/Coupons" class="btn btn-success w-100 p-3 scale-hover btn-dashboard">
+                        <!-- <i class="bi bi-x-octagon mb-2"></i> -->
+                        Out of Stock Products
+                    </a>
+                </div>
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/Coupons" class="btn btn-warning w-100 p-3 scale-hover btn-dashboard">
+                        <!-- <i class="bi bi-exclamation-triangle mb-2"></i> -->
+                        Low stock alerts
+                    </a>
+                </div>
+            </div>
+
+            <div class="row g-4 justify-content-center mt-2">
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/UserManagement/RoleList" class="btn btn-secondary w-100 p-3 scale-hover btn-dashboard">
+                        <!-- <i class="bi bi-people mb-2"></i> -->
+                        Total Staff
+                    </a>
+                </div>
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/UserManagement/StaffActivities" class="btn btn-gradient w-100 p-3 scale-hover btn-dashboard">
+                        <!-- <i class="bi bi-person-lines-fill mb-2"></i> -->
+                        Staff Activities
+                    </a>
+                </div>
+                <div class="col-md-3 col-6 d-flex justify-content-center">
+                    <a href="/Module/Coupons" class="btn btn-orange w-100 p-3 scale-hover btn-dashboard">
+                        <!-- <i class="bi bi-ticket-perforated mb-2"></i> -->
+                        Coupons / discounts
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 
 
 

@@ -16,30 +16,27 @@ jQuery(() => {
     if (status === "Success") {
         toastr.success(description);
         setTimeout(() => {
-            window.location.href = "/Module/UserManagement/RoleList";
-        }, 5000);
-    }
-    else if (status === "Deleted") {
-        toastr.success(description);
-        setTimeout(() => {
-            window.location.href = "/Module/UserManagement/RoleList";
+            window.location.href = "/Module/UserManagement/AssignRoleList";
         }, 5000);
     }
     else if (status === "Failed") {
         toastr.error(description);
     }
+    else if (status === "Role Exist") {
+        toastr.error(description);
+    }
 });
 $('#hiddenSave').on('click', () => {
-    const rolename = $('#rolename').val();
-    const description = $('#textDescription').val();
+    const rolename = $('#selectedUser').val();
+    const description = $('#selectedRole').val();
     if (rolename === "") {
-        toastr.error("Please enter rolename to proceed.", "Validation Error");
+        toastr.error("Please select a user.", "Validation Error");
         return;
     }
     if (description === "") {
-        toastr.error("Please enter description to proceed.", "Validation Error");
+        toastr.error("Please select a role to proceed.", "Validation Error");
         return;
     }
     $('#saveBtn').click();
 });
-//# sourceMappingURL=createRole.js.map
+//# sourceMappingURL=assignUserRoles.js.map

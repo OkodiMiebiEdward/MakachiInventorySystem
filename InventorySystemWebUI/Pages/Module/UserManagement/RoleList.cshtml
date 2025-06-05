@@ -9,7 +9,7 @@
     <div class="content-body container px-5">
         <div class="content-header">
             <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
-                <h3 class="content-header-title mb-0 me-3">Role List</h3>
+                <h3 class="content-header-title mb-0 me-3">ROLE LIST</h3>
                 <div class="">
                     <div class="">
                         <ol class="">
@@ -23,11 +23,10 @@
         </div>
 
         <section class="card" style="width:1000px">
-            <section class="card">
                 <div class="p-1 card-body">
                     <a asp-page="/Module/UserManagement/CreateRole" class="btn btn-primary btn-md ms-5">Create New Role</a>
                     <hr />
-                    <table class="mb-4 ms-5 table table-responsive table-striped">
+                    <table class="datatable mb-4 ms-2 table table-responsive table-hover">
                         <thead class="">
                             <tr>
                                 <th>Role</th>
@@ -36,12 +35,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            @foreach (var item in Model.Roles)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.RoleDescription</td>
+                                    <td><a class="btn btn-primary text-white" href="/Module/UserManagement/CreateRole?name=@item.Name">Edit</a></td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
-            </section>
         </section>
 
     </div>
 </div>
+
+@section scripts{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.datatable').DataTable();
+        });
+    </script>
+}

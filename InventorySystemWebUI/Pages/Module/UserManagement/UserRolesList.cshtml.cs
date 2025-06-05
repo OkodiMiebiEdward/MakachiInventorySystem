@@ -1,39 +1,33 @@
 using InventorySystemWebUI.Models;
-using InventorySystemWebUI.Service;
 using InventorySystemWebUI.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System.Data;
-using System.Text;
 
 namespace InventorySystemWebUI.Pages.Module.UserManagement
 {
-    public class RoleListModel : PageModel
+    public class UserRolesListModel : PageModel
     {
         private readonly IConfiguration _config;
-        private readonly IGeneralService _generalService;
         private readonly string apiUrl = "";
-        public ResponseModel ResponseModel { get; set; } = new ResponseModel();
 
         [BindProperty]
-        public List<RoleVM> Roles { get; set; } = new();
+        public List<AssignRoleVM> UserRoleRecords { get; set; } = new();
 
-        public RoleListModel(IConfiguration config,
-            IGeneralService generalService)
+        public UserRolesListModel(IConfiguration config)
         {
             _config = config;
-            _generalService = generalService;
             apiUrl = _config.GetValue<string>("BaseUrl")!;
         }
 
-        public async Task<ActionResult> OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            await GetRoles();
+            UserRoleRecords = await GetUsersRoles();
             return Page();
         }
 
-        private async Task GetRoles()
+        private async Task<List<AssignRoleVM>> GetUsersRoles()
         {
             string token = HttpContext.Session.GetString("AuthToken")!;
             try
@@ -43,27 +37,28 @@ namespace InventorySystemWebUI.Pages.Module.UserManagement
                     client.DefaultRequestHeaders.Authorization =
                               new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer",
                               $"{token}");
-                    var endPoint = apiUrl + "/api/Identity/GetRoles";
+                    var endPoint = apiUrl + "/api/Identity/GetUsersAndRoles";
 
                     using (var Response = await client.GetAsync(endPoint))
                     {
                         if (Response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             var json = await Response.Content.ReadAsStringAsync();
-                            Roles = JsonConvert.DeserializeObject<List<RoleVM>>(json)!;
+                            UserRoleRecords = JsonConvert.DeserializeObject<List<AssignRoleVM>>(json)!;
+                            return UserRoleRecords;
                         }
                         else
                         {
                             var json = await Response.Content.ReadAsStringAsync();
-                            Roles = JsonConvert.DeserializeObject<List<RoleVM>>(json)!;
+                            UserRoleRecords = JsonConvert.DeserializeObject<List<AssignRoleVM>>(json)!;
+                            return UserRoleRecords;
                         }
                     }
                 }
             }
             catch (Exception)
             {
-                ResponseModel.Status = "ServerError";
-                ResponseModel.Description = "An unexpected error occurred";
+                return new List<AssignRoleVM>();
             }
         }
     }
