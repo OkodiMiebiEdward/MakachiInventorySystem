@@ -119,11 +119,9 @@ namespace InventorySystemWebUI.Pages.Module.UserManagement
                 {
                     client.DefaultRequestHeaders.Authorization =
                               new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{token}");
-                    var endPoint = apiUrl + "/api/Identity/CreateRole";
-                    StringContent body = new StringContent(JsonConvert.SerializeObject(Role)
-                        , Encoding.UTF8, "application/json");
+                    var endPoint = apiUrl + $"/api/Identity/DeleteRole?roleName={Role?.Name!.Trim()}";
 
-                    using (var Response = await client.PostAsync(endPoint, body))
+                    using (var Response = await client.DeleteAsync(endPoint))
                     {
                         if (Response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
