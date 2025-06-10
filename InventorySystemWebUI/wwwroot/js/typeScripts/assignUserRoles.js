@@ -16,7 +16,7 @@ jQuery(() => {
     if (status === "Success") {
         toastr.success(description);
         setTimeout(() => {
-            window.location.href = "/Module/UserManagement/AssignRoleList";
+            window.location.href = "/Module/UserManagement/UserRolesList";
         }, 5000);
     }
     else if (status === "Failed") {
@@ -24,6 +24,9 @@ jQuery(() => {
     }
     else if (status === "Role Exist") {
         toastr.error(description);
+        setTimeout(() => {
+            window.location.href = "/Module/UserManagement/CreateUser";
+        }, 5000);
     }
 });
 $('#hiddenSave').on('click', () => {
