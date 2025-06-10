@@ -18,6 +18,8 @@ namespace InventorySystemWebUI.Pages.Module.UserManagement
         [BindProperty]
         public List<User> Users { get; set; } = new();
 
+        public int numCheck = 0;
+
         [BindProperty]
         public List<RoleVM> Roles { get; set; } = new();
 
@@ -30,11 +32,52 @@ namespace InventorySystemWebUI.Pages.Module.UserManagement
             apiUrl = _config.GetValue<string>("BaseUrl")!;
         }
 
-        public async Task<ActionResult> OnGet()
+        public async Task<ActionResult> OnGet(string name, string role)
         {
+            if (name is not null)
+            {
+                numCheck = 1;
+                AssignRole = await GetSingleUserAndRole(name, role);
+            }
+
             Users = await PopulateUsers();
             Roles = await PopulateRoles();
             return Page();
+        }
+
+        private async Task<AssignRoleVM> GetSingleUserAndRole(string name, string role)
+        {
+            string token = HttpContext.Session.GetString("AuthToken")!;
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization =
+                              new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{token}");
+                    var endPoint = apiUrl + $"/api/Identity/GetSingleUserRole?user={name}&role={role}";
+
+                    using (var Response = await client.GetAsync(endPoint))
+                    {
+                        if (Response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            var json = await Response.Content.ReadAsStringAsync();
+                            AssignRole = JsonConvert.DeserializeObject<AssignRoleVM>(json)!;
+                            return AssignRole;
+                        }
+                        else
+                        {
+                            var json = await Response.Content.ReadAsStringAsync();
+                            AssignRole = JsonConvert.DeserializeObject<AssignRoleVM>(json)!;
+                            return AssignRole;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                AssignRole = new();
+                return AssignRole;
+            }
         }
 
         private async Task<List<User>> PopulateUsers()
@@ -117,6 +160,42 @@ namespace InventorySystemWebUI.Pages.Module.UserManagement
                         , Encoding.UTF8, "application/json");
 
                     using (var Response = await client.PostAsync(endPoint, body))
+                    {
+                        if (Response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            var json = await Response.Content.ReadAsStringAsync();
+                            ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
+                            return Page();
+                        }
+                        else
+                        {
+                            var json = await Response.Content.ReadAsStringAsync();
+                            ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
+                            return Page();
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                ResponseModel.Status = "ServerError";
+                ResponseModel.Description = "An unexpected error occurred";
+                return Page();
+            }
+        }
+
+        public async Task<IActionResult> OnPostDelete()
+        {
+            string token = HttpContext.Session.GetString("AuthToken")!;
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization =
+                              new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{token}");
+                    var endPoint = apiUrl + $"/api/Identity/RemoveRoleFromUser?userName={AssignRole.UserName}&roleName={AssignRole.Role}";
+
+                    using (var Response = await client.DeleteAsync(endPoint))
                     {
                         if (Response.StatusCode == System.Net.HttpStatusCode.OK)
                         {

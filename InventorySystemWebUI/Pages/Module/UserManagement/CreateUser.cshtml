@@ -8,7 +8,7 @@
     <div class="content-body container px-5">
         <div class="content-header">
             <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
-                <h3 class="content-header-title mb-0 me-3">Assign Roles</h3>
+                <h3 class="content-header-title mb-0 me-3">ASSIGN ROLES</h3>
                 <div class="">
                     <div class="">
                         <ol class="">
@@ -25,33 +25,54 @@
             <form method="post">
                 <input type="hidden" value="@Model.ResponseModel.Status" id="status" />
                 <input type="hidden" value="@Model.ResponseModel.Description" id="description" />
+                <input type="hidden" value="@Model.numCheck" />
                 <div class="card-body">
+                    <p class="text-danger" style="font-style:italic">Note:All items in <span class="text-danger"> *</span> are required</p>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="form-label">User List <span class="text-danger">*</span></label>
-                            <select class="form-select" asp-for="AssignRole.UserName" id="selectedUser">
+                                <select class="form-select"
+                                asp-for="AssignRole.UserName"
+                                id="selectedUser"
+                                disabled="@(Model.numCheck == 1 ? "disabled" : null)">
                                 <option selected value="">Select</option>
                                 @foreach (var user in Model.Users)
                                 {
                                     <option value="@user.UserName">@user.UserName</option>
                                 }
                             </select>
+                            @if (Model.numCheck == 1)
+                            {
+                                <input type="hidden" asp-for="AssignRole.UserName" value="@Model.AssignRole.UserName" />
+                            }
                         </div>
 
                         <div class="form-group col-md-6">
                             <label class="form-label">Role List <span class="text-danger">*</span></label>
-                            <select class="form-select" asp-for="AssignRole.Role" id="selectedRole">
+                            <select class="form-select"
+                                    asp-for="AssignRole.Role"
+                                    id="selectedRole"
+                                    disabled="@(Model.numCheck == 1 ? "disabled" : null)">
                                 <option selected value="">Select</option>
                                 @foreach (var role in Model.Roles)
                                 {
                                     <option value="@role.Name">@role.Name</option>
                                 }
                             </select>
+                            @if (Model.numCheck == 1)
+                            {
+                                <input type="hidden" asp-for="AssignRole.Role" value="@Model.AssignRole.Role" />
+                            }
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-md mt-3 mb-3" style="margin-left:10px" id="hiddenSave"><i class="fa fa-save"></i> Save</button>
+                    <button type="button" class="btn btn-primary btn-md mt-3 mb-3" style="margin-left:10px" id="hiddenSave" disabled="@(Model.numCheck == 1 ? "disabled" : null)"><i class="fa fa-save"></i> Save</button>
                     <button type="submit" class="btn btn-primary btn-md mt-3 mb-3" style="margin-left:10px" hidden id="saveBtn"><i class="fa fa-save"></i> Save</button>
+                    <a href="/Module/UserManagement/CreateUser" class="btn btn-warning btn-md mt-3 mb-3" style="margin-left:10px" id=""><i class="fa fa-refresh"></i> Refresh</a>
+                    @if(Model.numCheck == 1)
+                    {
+                      <button type="submit" class="btn btn-danger btn-md mt-3 mb-3" style="margin-left:10px" id="" asp-page-handler="delete"><i class="fa fa-trash"></i> Remove Role</button>
+                    }
                 </div>
             </form>
         </section>
