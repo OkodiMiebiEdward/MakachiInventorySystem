@@ -1,0 +1,88 @@
+﻿@page
+@model InventorySystemWebUI.Pages.Module.Product.CreateCategoryModel
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<style>
+    .custom-checkbox-lg {
+        width: 1.5em;
+        height: 1.5em;
+        min-width: 1.5em;
+        min-height: 1.5em;
+    }
+</style>
+
+<div style="margin-left:220px" class="d-flex justify-content-center align-items-center">
+    <div class="content-body container px-5">
+        <div class="content-header">
+            <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
+                <h3 class="content-header-title mb-0 me-3">CREATE NEW CATEGORY</h3>
+                <div class="">
+                    <div class="">
+                        <ol class="">
+                            <li class="">
+                                <a href="/Home">Home</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="card" style="width:1000px">
+            <form method="post">
+                <input type="hidden" value="@Model.ResponseModel.Status" id="status" />
+                <input type="hidden" value="@Model.ResponseModel.Description" id="description" />
+                <div class="card-body">
+                    <p class="text-danger" style="font-style:italic">Note:All items in <span class="text-danger"> *</span> are required</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Enter Category Name <span class="text-danger">*</span></label>
+                                <input type="text"
+                                       class="form-control"
+                                       asp-for="Category.Name"
+                                       id="categoryname" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Enter Category Description <span class="text-danger">*</span></label>
+                                <input type="text"
+                                       class="form-control"
+                                       asp-for="Category.Description"
+                                       id="categorydescription" />
+                            </div>
+                        </div>
+
+                       <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="isActiveCategory">
+                                    Is Category Active? <span class="text-danger">*</span>
+                                </label>
+                                <div class="form-check mt-1">
+                                    <input type="checkbox"
+                                           class="form-check-input custom-checkbox-lg"
+                                           asp-for="Category.IsActive"
+                                           id="isActiveCategory" />
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary btn-md mt-3 mb-3" style="margin-left:10px" id="hiddenSave"><i class="fa fa-save"></i> Save</button>
+                <button type="submit" class="btn btn-primary btn-md mt-3 mb-3" style="margin-left:10px" hidden id="saveBtn"><i class="fa fa-save"></i> Save</button>
+                <a href="/Module/Product/CreateCategory" class="btn btn-warning btn-md mt-3 mb-3" style="margin-left:10px" id=""><i class="fa fa-refresh"></i> Refresh</a>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/typeScripts/createCategory.js" asp-append-version="true"></script>
+}
