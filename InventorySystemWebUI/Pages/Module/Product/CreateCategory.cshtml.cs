@@ -18,6 +18,8 @@ namespace InventorySystemWebUI.Pages.Module.Product
         [BindProperty]
         public CategoryVM Category { get; set; } = new();
 
+        public string CanDelete = "No";
+
         public CreateCategoryModel(IConfiguration config)
         {
             _config = config;
@@ -28,6 +30,7 @@ namespace InventorySystemWebUI.Pages.Module.Product
         {
             if (name is not null)
             {
+                CanDelete = "Yes";
                 Category = await GetSingleCategory(name);
             }
             return Page();
@@ -80,7 +83,7 @@ namespace InventorySystemWebUI.Pages.Module.Product
                 {
                     client.DefaultRequestHeaders.Authorization =
                               new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{token}");
-                    var endPoint = apiUrl + $"/api/Product/GetCategory?categoryName={name}";
+                    var endPoint = apiUrl + $"/api/Categories/GetCategory?categoryName={name}";
 
                     using (var Response = await client.GetAsync(endPoint))
                     {
@@ -102,6 +105,42 @@ namespace InventorySystemWebUI.Pages.Module.Product
             catch (Exception)
             {
                 return new CategoryVM();
+            }
+        }
+
+        public async Task<IActionResult> OnPostDelete()
+        {
+            string token = HttpContext.Session.GetString("AuthToken")!;
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization =
+                              new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{token}");
+                    var endPoint = apiUrl + $"/api/Categories/DeleteCategory?name={Category?.Name.Trim()}";
+
+                    using (var Response = await client.DeleteAsync(endPoint))
+                    {
+                        if (Response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            var json = await Response.Content.ReadAsStringAsync();
+                            ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
+                            return Page();
+                        }
+                        else
+                        {
+                            var json = await Response.Content.ReadAsStringAsync();
+                            ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
+                            return Page();
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                ResponseModel.Status = "ServerError";
+                ResponseModel.Description = "An unexpected error occurred";
+                return Page();
             }
         }
     }
