@@ -26,12 +26,12 @@ namespace InventorySystemWebUI.Pages.Module.Product
             apiUrl = _config.GetValue<string>("BaseUrl")!;
         }
 
-        public async Task<IActionResult> OnGet(string name)
+        public async Task<IActionResult> OnGet(int? id)
         {
-            if (name is not null)
+            if (id is not null)
             {
                 CanDelete = "Yes";
-                Category = await GetSingleCategory(name);
+                Category = await GetSingleCategory(id);
             }
             return Page();
         }
@@ -74,7 +74,7 @@ namespace InventorySystemWebUI.Pages.Module.Product
             }
         }
 
-        private async Task<CategoryVM> GetSingleCategory(string name)
+        private async Task<CategoryVM> GetSingleCategory(int? id)
         {
             string token = HttpContext.Session.GetString("AuthToken")!;
             try
@@ -83,7 +83,7 @@ namespace InventorySystemWebUI.Pages.Module.Product
                 {
                     client.DefaultRequestHeaders.Authorization =
                               new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{token}");
-                    var endPoint = apiUrl + $"/api/Categories/GetCategory?categoryName={name}";
+                    var endPoint = apiUrl + $"/api/Categories/GetCategory?id={id}";
 
                     using (var Response = await client.GetAsync(endPoint))
                     {
@@ -117,7 +117,7 @@ namespace InventorySystemWebUI.Pages.Module.Product
                 {
                     client.DefaultRequestHeaders.Authorization =
                               new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{token}");
-                    var endPoint = apiUrl + $"/api/Categories/DeleteCategory?name={Category?.Name.Trim()}";
+                    var endPoint = apiUrl + $"/api/Categories/DeleteCategory?id={Category?.Id}";
 
                     using (var Response = await client.DeleteAsync(endPoint))
                     {

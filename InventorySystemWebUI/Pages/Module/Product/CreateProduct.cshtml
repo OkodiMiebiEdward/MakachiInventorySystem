@@ -65,7 +65,7 @@
                             <div class="form-group">
                                 <label class="form-label">SKU<span style="color: red"> *</span></label>
                                 <div class="input-group">
-                                    <input id="sku" class="form-control" asp-for="Product.SKU" value="@Model.Product.SKU" readonly />
+                                    <input id="sku" class="form-control" asp-for="Product.SKU" value="@Model.Product.SKU"/>
                                     <button class="btn btn-primary" type="button" onclick="generate(0)">Generate</button>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                             <div class="form-group">
                                 <label class="form-label">Bar code Number<span style="color: red"> *</span></label>
                                 <div class="input-group">
-                                    <input id="barcodenumber" class="form-control" asp-for="Product.BarCodeNumber" value="@Model.Product.BarCodeNumber" readonly />
+                                    <input id="barcodenumber" class="form-control" asp-for="Product.BarCodeNumber" value="@Model.Product.BarCodeNumber"/>
                                     <button class="btn btn-primary" type="button" onclick="generate(1)">Generate</button>
                                 </div>
                             </div>

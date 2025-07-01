@@ -33,12 +33,12 @@ namespace InventorySystemWebUI.Pages.Module.Product
             apiUrl = _config.GetValue<string>("BaseUrl")!;
         }
 
-        public async Task<IActionResult> OnGetAsync(string name)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (name is not null)
+            if (id is not null)
             {
                 CanDelete = "Yes";
-                Product = await GetSingleProduct(name);
+                Product = await GetSingleProduct(id);
                 return Page();
             }
 
@@ -47,7 +47,7 @@ namespace InventorySystemWebUI.Pages.Module.Product
             return Page();
         }
 
-        private async Task<ProductVM> GetSingleProduct(string name)
+        private async Task<ProductVM> GetSingleProduct(int? id)
         {
             Categories = await PopulateCategories();
             string token = HttpContext.Session.GetString("AuthToken")!;
@@ -57,7 +57,7 @@ namespace InventorySystemWebUI.Pages.Module.Product
                 {
                     client.DefaultRequestHeaders.Authorization =
                               new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{token}");
-                    var endPoint = apiUrl + $"/api/Products/GetProduct?productName={name}";
+                    var endPoint = apiUrl + $"/api/Products/GetProduct?id= {id}";
 
                     using (var Response = await client.GetAsync(endPoint))
                     {

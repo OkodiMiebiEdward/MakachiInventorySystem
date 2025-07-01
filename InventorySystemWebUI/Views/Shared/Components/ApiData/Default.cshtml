@@ -1,0 +1,19 @@
+﻿@model InventorySystemWebUI.Models.SignedInDetail
+@{
+}
+
+@if (Model != null && Model.IsAdmin == true)
+{
+    <li class="active">
+        <a class="sidebar-sub-toggle">
+            <i class="ti-home"></i>
+            User management <span class="badge badge-primary">2</span> <span class="sidebar-collapse-icon ti-angle-down"></span>
+        </a>
+        <ul>
+            <li><a href="/Module/UserManagement/CreateRole">Create New Role</a></li>
+            <li><a href="/Module/UserManagement/RoleList">Role List</a></li>
+            <li><a href="/Module/UserManagement/AssignRole">Assign Role</a></li>
+            <li><a href="/Module/UserManagement/UserRolesList">Role Management</a></li>
+        </ul>
+    </li>
+}

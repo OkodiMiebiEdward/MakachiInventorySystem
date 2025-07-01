@@ -23,7 +23,7 @@
 
         <section class="card" style="width:1000px">
             <div class="p-1 card-body">
-                <a asp-page="/Module/UserManagement/CreateRole" class="btn btn-primary btn-md ms-5">Create New Role</a>
+                <a asp-page="/Module/UserManagement/AssignRole" class="btn btn-primary btn-md ms-5">Assign Role</a>
                 <hr />
                 <table class="datatable mb-4 ms-2 table table-responsive table-hover">
                     <thead class="">
@@ -39,7 +39,7 @@
                             <tr>
                                 <td>@item.UserName</td>
                                 <td>@item.Role</td>
-                                <td><a class="btn btn-primary" href="/Module/UserManagement/CreateUser?name=@item.UserName&role=@item.Role">Edit</a></td>
+                                <td><a class="btn btn-primary" href="/Module/UserManagement/AssignRole?name=@item.UserName&role=@item.Role">Edit</a></td>
                             </tr>
                         }
                     </tbody>

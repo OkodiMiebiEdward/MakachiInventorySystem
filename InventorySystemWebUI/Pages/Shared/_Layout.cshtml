@@ -2,6 +2,8 @@
     var currentPage = ViewContext.RouteData.Values["page"]?.ToString();
     var isIndexPage = string.Equals(currentPage, "/Index", StringComparison.OrdinalIgnoreCase);
     var isLoginPage = string.Equals(currentPage, "/Login", StringComparison.OrdinalIgnoreCase);
+
+
 }
 
 <!DOCTYPE html>
@@ -39,18 +41,11 @@
             <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
             <div class="nano">
                 <div class="nano-content">
-                    <ul>
-                        <div class="logo"><a href="index.html"><img src="~/assets/images/makachi.png" alt="" width="100" height="100" /><span>Makachi</span></a></div>
-                        <li class="label">Modules</li>
-                        <li class="active">
-                            <a class="sidebar-sub-toggle"><i class="ti-home"></i> User management <span class="badge badge-primary">2</span> <span class="sidebar-collapse-icon ti-angle-down"></span></a>
-                            <ul>
-                                <li><a asp-page="/Module/UserManagement/CreateRole">Create New Role</a></li>
-                                <li><a asp-page="/Module/UserManagement/RoleList">Role List</a></li>
-                                <li><a asp-page="/Module/UserManagement/CreateUser">Assign Role</a></li>
-                                <li><a asp-page="/Module/UserManagement/UserRolesList">Role Management</a></li>
-                            </ul>
-                        </li>
+                    <ul class="mt-4">
+                        <div class="logo"><a href="/Home"><img src="~/assets/images/makachi.png" alt="" 
+                            width="100" height="100" /><span>Makachi</span></a></div>
+
+                        @await Component.InvokeAsync("ApiData")
 
                         <li>
                             <a class="sidebar-sub-toggle"><i class="ti-bar-chart-alt"></i>Products<span class="sidebar-collapse-icon ti-angle-down"></span></a>
@@ -64,26 +59,8 @@
                         <li>
                             <a class="sidebar-sub-toggle"><i class="ti-layout"></i> Stock <span class="sidebar-collapse-icon ti-angle-down"></span></a>
                             <ul>
-                                <li><a asp-page="/Module/Stock/ProductStock">Product Stock</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="sidebar-sub-toggle"><i class="ti-panel"></i> Sales <span class="sidebar-collapse-icon ti-angle-down"></span></a>
-                            <ul>
-                                <li><a href="uc-calendar.html">Calendar</a></li>
-                                <li><a href="uc-carousel.html">Carousel</a></li>
-                                <li><a href="uc-weather.html">Weather</a></li>
-                                <li><a href="uc-datamap.html">Datamap</a></li>
-                                <li><a href="uc-todo-list.html">To do</a></li>
-                                <li><a href="uc-scrollable.html">Scrollable</a></li>
-                                <li><a href="uc-sweetalert.html">Sweet Alert</a></li>
-                                <li><a href="uc-toastr.html">Toastr</a></li>
-                                <li><a href="uc-range-slider-basic.html">Basic Range Slider</a></li>
-                                <li><a href="uc-range-slider-advance.html">Advance Range Slider</a></li>
-                                <li><a href="uc-nestable.html">Nestable</a></li>
-
-                                <li><a href="uc-rating-bar-rating.html">Bar Rating</a></li>
-                                <li><a href="uc-rating-jRate.html">jRate</a></li>
+                                <li><a asp-page="/Module/Stock/ProductsStock">Product Stock</a></li>
+                                <li><a asp-page="/Module/Stock/StockList">Stock List</a></li>
                             </ul>
                         </li>
                         <li>
@@ -102,7 +79,6 @@
                                 <li><a href="font-themify.html">Themify</a></li>
                             </ul>
                         </li>
-                        <li><a><i class="ti-close"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -123,130 +99,15 @@
                         <div class="float-right">
                             <ul>
                                 <li class="header-icon dib">
-                                    <i class="ti-bell"></i>
-                                    <div class="drop-down">
-                                        <div class="dropdown-content-heading">
-                                            <span class="text-left">Recent Notifications</span>
-                                        </div>
-                                        <div class="dropdown-content-body">
-                                            <ul>
-                                                <li>
-                                                    <a href="#">
-                                                        <img class="pull-left m-r-10 avatar-img" src="~/assets/images/avatar/3.jpg" alt="" />
-                                                        <div class="notification-content">
-                                                            <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                            <div class="notification-heading">Mr. John</div>
-                                                            <div class="notification-text">5 members joined today </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <img class="pull-left m-r-10 avatar-img" src="~/assets/images/avatar/3.jpg" alt="" />
-                                                        <div class="notification-content">
-                                                            <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                            <div class="notification-heading">Mariam</div>
-                                                            <div class="notification-text">likes a photo of you</div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <img class="pull-left m-r-10 avatar-img" src="~/assets/images/avatar/3.jpg" alt="" />
-                                                        <div class="notification-content">
-                                                            <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                            <div class="notification-heading">Tasnim</div>
-                                                            <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <img class="pull-left m-r-10 avatar-img" src="~/assets/images/avatar/3.jpg" alt="" />
-                                                        <div class="notification-content">
-                                                            <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                            <div class="notification-heading">Mr. John</div>
-                                                            <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="text-center">
-                                                    <a href="#" class="more-link">See All</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="header-icon dib">
-                                    <i class="ti-email"></i>
-                                    <div class="drop-down">
-                                        <div class="dropdown-content-heading">
-                                            <span class="text-left">2 New Messages</span>
-                                            <a href="email.html"><i class="ti-pencil-alt pull-right"></i></a>
-                                        </div>
-                                        <div class="dropdown-content-body">
-                                            <ul>
-                                                <li class="notification-unread">
-                                                    <a href="#">
-                                                        <img class="pull-left m-r-10 avatar-img" src="~/assets/images/avatar/1.jpg" alt="" />
-                                                        <div class="notification-content">
-                                                            <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                            <div class="notification-heading">Michael Qin</div>
-                                                            <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="notification-unread">
-                                                    <a href="#">
-                                                        <img class="pull-left m-r-10 avatar-img" src="~/assets/images/avatar/2.jpg" alt="" />
-                                                        <div class="notification-content">
-                                                            <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                            <div class="notification-heading">Mr. John</div>
-                                                            <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <img class="pull-left m-r-10 avatar-img" src="~/assets/images/avatar/3.jpg" alt="" />
-                                                        <div class="notification-content">
-                                                            <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                            <div class="notification-heading">Michael Qin</div>
-                                                            <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <img class="pull-left m-r-10 avatar-img" src="~/assets/images/avatar/2.jpg" alt="" />
-                                                        <div class="notification-content">
-                                                            <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                            <div class="notification-heading">Mr. John</div>
-                                                            <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="text-center">
-                                                    <a href="#" class="more-link">See All</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="header-icon dib">
-                                    <span class="user-avatar">John <i class="ti-angle-down f-s-10"></i></span>
+                                    @await Component.InvokeAsync("FetchName")
                                     <div class="drop-down dropdown-profile">
                                         <div class="dropdown-content-heading">
-                                            <span class="text-left">Upgrade Now</span>
-                                            <p class="trial-day">30 Days Trail</p>
+                                            <span class="text-left">Setup</span>
                                         </div>
                                         <div class="dropdown-content-body">
                                             <ul>
-                                                <li><a href="#"><i class="ti-user"></i> <span>Profile</span></a></li>
-
-                                                <li><a href="#"><i class="ti-email"></i> <span>Inbox</span></a></li>
-                                                <li><a href="#"><i class="ti-settings"></i> <span>Setting</span></a></li>
-
+                                                <li><a href="#"><i class="ti-user"></i> <span>Change Password</span></a></li>
+                                                <li><a asp-page="/GenerateProductBarcode"><i class="ti-user"></i> <span>Generate Product Barcode</span></a></li>
                                                 <li><a href="#"><i class="ti-lock"></i> <span>Lock Screen</span></a></li>
                                                 <li><a href="#"><i class="ti-power-off"></i> <span>Logout</span></a></li>
                                             </ul>

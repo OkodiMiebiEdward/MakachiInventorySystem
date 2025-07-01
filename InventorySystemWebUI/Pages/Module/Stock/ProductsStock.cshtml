@@ -3,3 +3,123 @@
 @{
     ViewData["Title"] = "Product Stock";
 }
+
+<div style="margin-left:220px" class="d-flex justify-content-center align-items-center">
+    <div class="content-body container px-5">
+        <div class="content-header">
+            <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
+                <h3 class="content-header-title mb-0 me-3">CREATE NEW STOCK</h3>
+                <div class="">
+                    <div class="">
+                        <ol class="">
+                            <li class="">
+                                <a href="/Home">Home</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="card" style="width:1000px">
+            <form method="post">
+                <input type="hidden" value="@Model.ResponseModel.Status" id="status" />
+                <input type="hidden" value="@Model.ResponseModel.Description" id="description" />
+                <input hidden asp-for="@Model.Stock.Id" />
+                <input hidden value="@Model.CanDelete" />
+                
+                <div class="card-body">
+                    <p class="text-danger" style="font-style:italic">Note:All items in <span class="text-danger"> *</span> are required</p>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label class="form-label">Product List <span class="text-danger">*</span></label>
+                            <select class="form-select"
+                                    id="itemName" asp-for="Stock.ProductId">
+                                <option selected value="">Select</option>
+                                @foreach (var product in Model.Products)
+                                {
+                                    <option value="@product.Id">@product.ProductName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Quantity in stock <span class="text-danger">*</span></label>
+                                <input class="form-control"  asp-for="Stock.QuantityInStock" id="quantityInStock" type="number"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label class="form-label">Category List <span class="text-danger">*</span></label>
+                            <select class="form-select"
+                                    id="selectedCategory" asp-for="Stock.CategoryId">
+                                <option selected value="">Select</option>
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Cost per unit<span style="color: red"> *</span></label>
+                                <div class="input-group">
+                                    <input id="costPerUnit" type="number" class="form-control" asp-for="Stock.CostUnitPrice" value="@Model.Stock.CostUnitPrice"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Selling unit price<span style="color: red"> *</span></label>
+                                <div class="input-group">
+                                    <input id="sellingUnitPrice" class="form-control" asp-for="Stock.SellingUnitPrice" value="@Model.Stock.SellingUnitPrice"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Discount</label>
+                                <div class="input-group">
+                                    <input id="discount" type="number" class="form-control" asp-for="Stock.Discount" value="@Model.Stock.Discount" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Date</label>
+                                <div class="input-group">
+                                    <input id="datee" type="date" class="form-control" asp-for="Stock.CreatedAt" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-success btn-md mt-3 mb-3" style="margin-left:10px" id="hiddenSave"><i class="fa fa-save"></i> Save</button>
+                    <button type="submit" class="btn btn-success btn-md mt-3 mb-3" style="margin-left:10px" hidden id="saveBtn"><i class="fa fa-save"></i> Save</button>
+                    <a href="/Module/Stock/ProductsStock" class="btn btn-warning btn-md mt-3 mb-3" style="margin-left:10px" id=""><i class="fa fa-refresh"></i> Refresh</a>
+                    <a href="/Module/Stock/StockList" class="btn btn-primary btn-md mt-3 mb-3" style="margin-left:10px" id=""><i class="fa fa-eye"></i> View Saved Records</a>
+                    <button type="submit"
+                            class="btn btn-danger btn-md mt-3 mb-3"
+                            style="margin-left:10px"
+                            hidden="@(Model.CanDelete == "No" ? "hidden" : null)"
+                            asp-page-handler="Delete">
+                        <i class="fa fa-trash"></i> Delete
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/typeScripts/createStock.js" asp-append-version="true"></script>
+}

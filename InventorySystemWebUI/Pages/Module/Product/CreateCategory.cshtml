@@ -35,6 +35,7 @@
                 <input type="hidden" value="@Model.ResponseModel.Status" id="status" />
                 <input type="hidden" value="@Model.ResponseModel.Description" id="description" />
                 <input hidden value="@Model.CanDelete" />
+                <input hidden asp-for="Category.Id"/>
                 <div class="card-body">
                     <p class="text-danger" style="font-style:italic">Note:All items in <span class="text-danger"> *</span> are required</p>
                     <div class="row">
@@ -74,9 +75,10 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary btn-md mt-3 mb-3" style="margin-left:10px" id="hiddenSave"><i class="fa fa-save"></i> Save</button>
-                <button type="submit" class="btn btn-primary btn-md mt-3 mb-3" style="margin-left:10px" hidden id="saveBtn"><i class="fa fa-save"></i> Save</button>
+                <button type="button" class="btn btn-success btn-md mt-3 mb-3" style="margin-left:10px" id="hiddenSave"><i class="fa fa-save"></i> Save</button>
+                <button type="submit" class="btn btn-success btn-md mt-3 mb-3" style="margin-left:10px" hidden id="saveBtn"><i class="fa fa-save"></i> Save</button>
                 <a href="/Module/Product/CreateCategory" class="btn btn-warning btn-md mt-3 mb-3" style="margin-left:10px" id=""><i class="fa fa-refresh"></i> Refresh</a>
+                <a href="/Module/Product/CategoryList" class="btn btn-primary btn-md mt-3 mb-3" style="margin-left:10px" id=""><i class="fa fa-eye"></i> View Saved Records</a>
                 <button type="submit"
                         class="btn btn-danger btn-md mt-3 mb-3"
                         style="margin-left:10px"

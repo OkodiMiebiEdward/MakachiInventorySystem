@@ -19,25 +19,18 @@ jQuery(() => {
             window.location.href = "/Home";
         }, 5000);
     }
-    else if (status === "Failed") {
+    else if (status === "Error") {
+        toastr.error(description);
+    }
+    else if (status === "ServerError") {
         toastr.error(description);
     }
 });
 $('#check').on('click', () => {
     const username = $('#username').val();
-    const email = $('#email').val();
     const password = $('#password').val();
     if (username === "") {
         toastr.error("Please enter your username to proceed.", "Validation Error");
-        return;
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email === "") {
-        toastr.error("Please enter your email address.", "Validation Error");
-        return;
-    }
-    if (!emailRegex.test(email)) {
-        toastr.error("Please enter a valid email address.", "Validation Error");
         return;
     }
     if (password === "") {
