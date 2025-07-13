@@ -41,14 +41,25 @@ namespace InventorySystemWebUI.Pages.Module.Stock
                 return Page();
             }
 
+            GetStockNumberRandomly();
             Categories = await PopulateCategories();
             Products = await PopulateProducts();
             return Page();
         }
 
+        private void GetStockNumberRandomly()
+        {
+            var date = Stock.CreatedAt ?? DateTime.Now;
+            var random = new Random();
+            var randomDigits = random.Next(1000, 9999);
+            var stockNumber = $"STK-{date:yyyyMMdd}-{randomDigits}";
+            Stock.StockNumber = stockNumber;
+        }
+
         private async Task<StockVM> GetSingleStock(int? id)
         {
             Categories = await PopulateCategories();
+            Products = await PopulateProducts();
             string token = HttpContext.Session.GetString("AuthToken")!;
             try
             {

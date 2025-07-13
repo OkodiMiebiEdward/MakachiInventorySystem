@@ -22,17 +22,19 @@
         </div>
         
         <section class="card" style="width:1000px">
-                <div class="p-1 card-body">
+                <div class="p-1 card-body table-responsive">
                     <a asp-page="/Module/Stock/ProductsStock" class="btn btn-primary btn-md ms-5">Create New Stock</a>
                     <hr />
-                    <table class="datatable mb-4 ms-2 table table-responsive table-hover">
+                    <table class="datatable mb-4 ms-2 table table-hover">
                         <thead class="">
                             <tr>
+                                <th>Stock Number</th>
                                 <th>Product Name</th>
                                 <th>QuantityInStock</th>
                                 <th>Cost per unit price</th>
                                 <th>Selling unit price</th>
                                 <th>Discount</th>
+                                <th>Final Price</th>
                                 <th>Created At</th>
                                 <th>Edit</th>
                             </tr>
@@ -41,11 +43,13 @@
                             @foreach (var stock in Model.Stocks)
                             {
                                 <tr>
+                                    <td>@stock.StockNumber</td>
                                     <td>@stock.ProductName</td>
                                     <td>@stock.QuantityInStock</td>
                                     <td>@stock.CostUnitPrice</td>
                                     <td>@stock.SellingUnitPrice</td>
                                     <td>@stock.Discount</td>
+                                    <td>@stock.FinalPrice</td>
                                     <td>@stock.CreatedAt?.ToString("dd-MM-yyyy")</td>
                                     <td><a class="btn btn-primary text-white" href="/Module/Stock/ProductsStock?id=@stock.Id">Edit</a></td>
                                 </tr>

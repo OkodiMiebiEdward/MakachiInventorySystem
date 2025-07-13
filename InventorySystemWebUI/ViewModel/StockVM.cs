@@ -11,6 +11,8 @@ public class StockVM
     public decimal CostUnitPrice { get; set; }
     public decimal SellingUnitPrice { get; set; }
     public decimal? Discount { get; set; }
-    public DateTime? CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
     public int CategoryId { get; set; }
+    public string StockNumber { get; set; }
+    public decimal FinalPrice { get; set; }
 }

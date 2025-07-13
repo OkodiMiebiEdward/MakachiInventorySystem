@@ -32,7 +32,7 @@
     <link href="~/assets/css/lib/helper.css" rel="stylesheet">
     <link rel="stylesheet" href="~/assets/css/style.css" asp-append-version="true" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
     @if (!isIndexPage && !isLoginPage)
@@ -48,7 +48,10 @@
                         @await Component.InvokeAsync("ApiData")
 
                         <li>
-                            <a class="sidebar-sub-toggle"><i class="ti-bar-chart-alt"></i>Products<span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <a class="sidebar-sub-toggle">
+                                <i class="fa fa-boxes-stacked"></i>
+                                Products <span class="sidebar-collapse-icon ti-angle-down"></span>
+                            </a>
                             <ul>
                                 <li><a asp-page ="/Module/Product/CreateCategory">Create Category</a></li>
                                 <li><a asp-page="/Module/Product/CategoryList">Category List</a></li>
@@ -57,27 +60,33 @@
                             </ul>
                         </li>
                         <li>
-                            <a class="sidebar-sub-toggle"><i class="ti-layout"></i> Stock <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <a class="sidebar-sub-toggle">
+                                <i class="fa fa-warehouse"></i>
+                                Stock <span class="sidebar-collapse-icon ti-angle-down"></span>
+                            </a>
                             <ul>
                                 <li><a asp-page="/Module/Stock/ProductsStock">Product Stock</a></li>
                                 <li><a asp-page="/Module/Stock/StockList">Stock List</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Point of Sale <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <a class="sidebar-sub-toggle">
+                                <i class="fa fa-cash-register"></i>
+                                Point of Sale <span class="sidebar-collapse-icon ti-angle-down"></span>
+                            </a>
                             <ul>
-                                <li><a href="table-basic.html">Basic</a></li>
-
+                                    <li><a asp-page="/Module/Sales/CreateSale">Sales</a></li>
                                 <li><a href="table-export.html">Datatable Export</a></li>
-                                <li><a href="table-row-select.html">Datatable Row Select</a></li>
-                                <li><a href="table-jsgrid.html">Editable </a></li>
                             </ul>
                         </li>
                         <li>
-                            <a class="sidebar-sub-toggle"><i class="ti-heart"></i> Analytics <span class="sidebar-collapse-icon ti-angle-down"></span></a>
-                            <ul>
-                                <li><a href="font-themify.html">Themify</a></li>
-                            </ul>
+                            <a class="sidebar-sub-toggle">
+                                <i class="fa fa-chart-line"></i>
+                                Analytics <span class="sidebar-collapse-icon ti-angle-down"></span>
+                            </a>
+                        <ul>
+                            <li><a href="font-themify.html">Themify</a></li>
+                        </ul>
                         </li>
                     </ul>
                 </div>
@@ -106,10 +115,17 @@
                                         </div>
                                         <div class="dropdown-content-body">
                                             <ul>
-                                                <li><a href="#"><i class="ti-user"></i> <span>Change Password</span></a></li>
-                                                <li><a asp-page="/GenerateProductBarcode"><i class="ti-user"></i> <span>Generate Product Barcode</span></a></li>
-                                                <li><a href="#"><i class="ti-lock"></i> <span>Lock Screen</span></a></li>
-                                                <li><a href="#"><i class="ti-power-off"></i> <span>Logout</span></a></li>
+                                                <li>
+                                                    <a asp-page="/ChangePassword">
+                                                        <i class="fa fa-key"></i> <span>Change Password</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a asp-page="/GenerateProductBarcode">
+                                                        <i class="fa fa-barcode"></i> <span>Generate Product Barcode</span>
+                                                    </a>
+                                                </li>
+                                                <li><a asp-page="/Login"><i class="ti-power-off"></i> <span>Logout</span></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -131,7 +147,7 @@
     
     <footer class="" style="flex-shrink: 0; margin-left:300px">
         <p style="font-weight:bolder; font-size:18px;">
-            &copy; @DateTime.Now.Year 4im digitals
+            &copy; @DateTime.Now.Year 4im digitals. All rights reserved.
         </p>
     </footer>
     

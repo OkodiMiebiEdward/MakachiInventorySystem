@@ -4,6 +4,8 @@
     "toastr": "^2.1.4"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
+    "@types/datatables.net": "^1.10.28",
     "@types/toastr": "^2.1.43"
   }
 }

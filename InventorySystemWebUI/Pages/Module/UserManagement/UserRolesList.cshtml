@@ -34,12 +34,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.UserRoleRecords)
+                        @foreach (var user in Model.UsersWithRoles)
                         {
                             <tr>
-                                <td>@item.UserName</td>
-                                <td>@item.Role</td>
-                                <td><a class="btn btn-primary" href="/Module/UserManagement/AssignRole?name=@item.UserName&role=@item.Role">Edit</a></td>
+                                <td>@user.UserName</td>
+                                <td>@string.Join(", ", user.Roles)</td>
+                                <td>
+                                    @foreach (var role in user.Roles)
+                                    {
+                                        <a class="btn btn-primary btn-sm mb-1" href="/Module/UserManagement/AssignRole?name=@user.UserName&role=@role">Edit @role</a>
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>

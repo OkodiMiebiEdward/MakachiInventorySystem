@@ -15,6 +15,9 @@ namespace InventorySystemWebUI.Pages.Module.UserManagement
         [BindProperty]
         public List<AssignRoleVM> UserRoleRecords { get; set; } = new();
 
+        [BindProperty]
+        public List<UserWithRolesVM> UsersWithRoles { get; set; }
+
         public UserRolesListModel(IConfiguration config)
         {
             _config = config;
@@ -24,6 +27,14 @@ namespace InventorySystemWebUI.Pages.Module.UserManagement
         public async Task<IActionResult> OnGet()
         {
             UserRoleRecords = await GetUsersRoles();
+            UsersWithRoles = UserRoleRecords
+            .GroupBy(x => x.UserName)
+            .Select(g => new UserWithRolesVM
+            {
+                UserName = g.Key,
+                Roles = g.Select(x => x.Role).ToList()
+            })
+            .ToList();
             return Page();
         }
 
