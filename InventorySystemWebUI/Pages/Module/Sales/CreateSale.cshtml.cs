@@ -3,6 +3,7 @@ using InventorySystemWebUI.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Text.Json;
 
@@ -126,7 +127,8 @@ namespace InventorySystemWebUI.Pages.Module.Sales
             }
         }
 
-        public async Task<IActionResult> OnGetInitiateSale(decimal discount, decimal priceSold, int quantity, string barcode)
+        public async Task<IActionResult> OnGetInitiateSale(decimal discount, decimal priceSold,
+            int quantity, string barcode)
         {
             SalesVM sale = new SalesVM
             {
@@ -135,6 +137,12 @@ namespace InventorySystemWebUI.Pages.Module.Sales
                 Quantity = quantity,
                 Barcodenumber = barcode
             };
+
+            #region FinalSellingPriceCalculation
+            var discountedPrice = (discount / 100) * priceSold;
+            var finalPrice = (priceSold - discountedPrice) * quantity;
+            #endregion
+
 
             string val = "";
             string token = HttpContext.Session.GetString("AuthToken")!;
@@ -154,8 +162,75 @@ namespace InventorySystemWebUI.Pages.Module.Sales
                         {
                             var json = await Response.Content.ReadAsStringAsync();
                             Sale = JsonConvert.DeserializeObject<SalesVM>(json)!;
-                            val = System.Text.Json.JsonSerializer.Serialize(Sale
-                                ,new JsonSerializerOptions() {WriteIndented = true});
+
+                            int sn = 0;
+
+                            #region RenderSales
+                            string row =
+                            $"<tr data-sale-id='{Sale.Id}'>" +
+                             $"<td class='sn'></td>" + // S/N will be set by JS
+                            $"<td>{Sale.Barcodenumber}</td>" +
+                            $"<td>{Sale.Quantity}</td>" +
+                            $"<td>{Sale.PriceSold.ToString("N2")}</td>" +
+                            $"<td>{Sale.Discount}</td>" +
+                            $"<td>{finalPrice.ToString("N2")}</td>" +
+                            $"<td><button type='button' class='btn btn-danger btn-sm remove-sale-row'>Remove</button></td>" +
+                            $"</tr>";
+                            #endregion
+
+                            val = System.Text.Json.JsonSerializer.Serialize(row
+                                , new JsonSerializerOptions() { WriteIndented = true });
+                            return new JsonResult(val);
+                        }
+                        else
+                        {
+                            var json = await Response.Content.ReadAsStringAsync();
+                            ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
+                            return Page();
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                ResponseModel.Status = "ServerError";
+                ResponseModel.Description = "An unexpected error occurred";
+                return Page();
+            }
+        }
+
+        public async Task<IActionResult> OnGetRemoveSale(decimal discount, decimal priceSold,
+            int quantity, string barcode)
+        {
+            SalesVM sale = new SalesVM
+            {
+                Discount = discount,
+                PriceSold = priceSold,
+                Quantity = quantity,
+                Barcodenumber = barcode
+            };
+
+            try
+            {
+                string val = "";
+                string token = HttpContext.Session.GetString("AuthToken")!;
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization =
+                              new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{token}");
+                    var endPoint = apiUrl + "/api/Sales/RemoveSale";
+                    StringContent body = new StringContent(JsonConvert.SerializeObject(sale)
+                        , Encoding.UTF8, "application/json");
+
+                    using (var Response = await client.PostAsync(endPoint, body))
+                    {
+                        if (Response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            var json = await Response.Content.ReadAsStringAsync();
+                            ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
+                            val = System.Text.Json.JsonSerializer.Serialize(new { Result = ResponseModel }
+                                , new JsonSerializerOptions() { WriteIndented = true });
                             return new JsonResult(val);
                         }
                         else

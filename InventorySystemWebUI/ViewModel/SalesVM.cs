@@ -7,6 +7,6 @@
         public decimal PriceSold { get; set; }
         public int Quantity { get; set; }
         public int StockId { get; set; }
-        public string Barcodenumber { get; set; } = "";
+        public string Barcodenumber { get; set; }
     }
 }

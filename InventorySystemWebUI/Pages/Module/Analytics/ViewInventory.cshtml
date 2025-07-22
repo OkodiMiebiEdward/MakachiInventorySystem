@@ -1,0 +1,54 @@
+﻿@page
+@model InventorySystemWebUI.Pages.Module.Analytics.ViewInventoryModel
+@{
+    ViewData["Title"] = "Inventory Bar Chart";
+    var productLabels = Model.Inventory
+        .Select(i => new[] { i.ProductName, $"Stock#: {i.StockNumber}" })
+        .ToList();
+    var quantities = Model.Inventory.Select(i => i.QuantityInStock).ToList();
+}
+@* <pre style="margin-left:270px">
+@string.Join(", ", productNames)
+@string.Join(", ", quantities)
+</pre> *@
+
+<div style="margin-left:300px;">
+    <canvas id="inventoryChart" width="600" height="400"></canvas>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(productLabels));
+            const data = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(quantities));
+
+            if (labels.length === 0 || data.length === 0) {
+                document.getElementById('inventoryChart').style.display = 'none';
+                return;
+            }
+
+            const ctx = document.getElementById('inventoryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Items Left in Store',
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { display: true }
+                    }
+                }
+            });
+        });
+    </script>
+}

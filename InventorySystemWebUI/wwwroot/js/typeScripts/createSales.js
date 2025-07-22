@@ -36,31 +36,79 @@ async function getDataFromModal(whatClicked) {
     }
 }
 ;
-async function addToCart() {
-    const divElement = document.getElementById("actionTable");
-    if (divElement) {
-        divElement.style.display = "block";
-    }
+$('#cart').on('click', async function () {
     let barcode = jQuery('#barcodenumber').val();
     let price = jQuery('#price').val();
     let quantity = parseInt(jQuery('#quantity').val());
     let discount = parseInt(jQuery('#discount').val());
+    if (barcode === "") {
+        toastr.error("Barcodenumber is required.");
+        return;
+    }
+    else if (price === "") {
+        toastr.error("Price is required.");
+        return;
+    }
+    else if (quantity === 0) {
+        toastr.error("Quantity cannot be 0.");
+        return;
+    }
     try {
         const response = await fetch(`?handler=InitiateSale&discount=${discount}&priceSold=${price}&quantity=${quantity}&barcode=${barcode}`, { method: 'GET' });
         const json = await response.json();
-        const tableBody = document.querySelector("#saleTable tbody");
-        const newRow = document.createElement("tr");
-        [
-            json.quantity,
-            json.priceSold,
-        ].forEach(value => {
-            const cell = document.createElement("td");
-            cell.textContent = value;
-            newRow.appendChild(cell);
-        });
-        tableBody?.appendChild(newRow);
+        if (json != "") {
+            var data = JSON.parse(json);
+            if (data) {
+                $('.actionTable').prop('hidden', false);
+                $('#saleTable tbody').append(data);
+                updateSerialNumbersAndTotal();
+            }
+        }
     }
     catch (e) {
+    }
+});
+$(document).on('click', '.remove-sale-row', async function () {
+    const $row = $(this).closest('tr');
+    const barcode = $row.find('td').eq(1).text();
+    const quantity = $row.find('td').eq(2).text();
+    const price = $row.find('td').eq(3).text().replace(/,/g, '');
+    const discount = $row.find('td').eq(4).text();
+    try {
+        const response = await fetch(`?handler=RemoveSale&discount=${discount}&priceSold=${price}&quantity=${quantity}&barcode=${barcode}`, { method: 'GET' });
+        const json = await response.json();
+        if (json != "") {
+            var data = JSON.parse(json);
+            if (data && data.Result && data.Result.Status === "Success") {
+                $row.remove();
+                updateSerialNumbersAndTotal();
+            }
+        }
+    }
+    catch (e) {
+        toastr.error("An error occurred while removing the sale.");
+    }
+});
+jQuery(() => {
+    const status = $('#status').val();
+    const description = $('#description').val();
+    if (status === "Failed") {
+        toastr.error(description);
+    }
+});
+function updateSerialNumbersAndTotal() {
+    let total = 0;
+    const $tbody = $('#saleTable tbody');
+    $tbody.find('tr').each(function (index) {
+        $(this).find('td.sn').text(index + 1);
+        const priceText = $(this).find('td').eq(5).text().replace(/,/g, '');
+        const finalPrice = parseFloat(priceText) || 0;
+        total += finalPrice;
+    });
+    $('#totalFinalPrice').text(total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    if ($tbody.find('tr').length === 0) {
+        $('.actionTable').prop('hidden', true);
+        $tbody.empty();
     }
 }
 //# sourceMappingURL=createSales.js.map
