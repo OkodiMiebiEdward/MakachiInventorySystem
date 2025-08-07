@@ -16,7 +16,8 @@ jQuery(() => {
     if (status === "Success") {
         toastr.success(description);
         setTimeout(() => {
-            window.location.href = "/Home";
+            console.log("Redirecting now");
+            window.location.href = `${window.location.origin}/Home`;
         }, 5000);
     }
     else if (status === "Error") {

@@ -1,30 +1,29 @@
 using InventorySystemWebUI.Models;
+using InventorySystemWebUI.Service;
 using InventorySystemWebUI.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace InventorySystemWebUI.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly IConfiguration _config;
+        private readonly IGeneralService _generalService;
         private string apiUrl = "";
+        public ResponseModel ResponseModel { get; set; } = new();
+
+        public IndexModel(IConfiguration config, IGeneralService generalService)
+        {
+            _config = config;
+            _generalService = generalService;
+            apiUrl = _config.GetValue<string>("BaseUrl")!;
+        }
 
         [BindProperty]
         public User User { get; set; } = new User();
-
-        [BindProperty]
-        public ResponseModel ResponseModel { get; set; } = new();   
-
-        public IndexModel(IConfiguration config)
-        {
-            _config = config;
-            apiUrl = _config.GetValue<string>("BaseUrl")!;
-        }
 
         public ActionResult OnGet()
         {
@@ -35,18 +34,30 @@ namespace InventorySystemWebUI.Pages
         {
             try
             {
-                if (!ModelState.IsValid)
+                var token = await _generalService.GetUserInfo(User);
+                if (string.IsNullOrWhiteSpace(token))
                     return Page();
+                else
+                    // Storing token in session
+                    HttpContext.Session.SetString("AuthToken", token);
 
                 using (HttpClient client = new HttpClient())
                 {
-                    var endPoint = apiUrl + "/api/Identity/CreateUser";
+                    client.DefaultRequestHeaders.Authorization =
+                              new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{token}");
+                    var endPoint = apiUrl + "/api/Identity/Login";
                     StringContent body = new StringContent(JsonConvert.SerializeObject(User)
                         , Encoding.UTF8, "application/json");
 
                     using (var Response = await client.PostAsync(endPoint, body))
                     {
-                        if (Response.StatusCode == System.Net.HttpStatusCode.Created)
+                        if (Response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            var json = await Response.Content.ReadAsStringAsync();
+                            ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
+                            return Page();
+                        }
+                        else if (Response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                         {
                             var json = await Response.Content.ReadAsStringAsync();
                             ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
@@ -54,8 +65,8 @@ namespace InventorySystemWebUI.Pages
                         }
                         else
                         {
-                            ResponseModel.Status = "Failed";
-                            ResponseModel.Description = "User creation failed";
+                            var json = await Response.Content.ReadAsStringAsync();
+                            ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(json)!;
                             return Page();
                         }
                     }
@@ -70,3 +81,4 @@ namespace InventorySystemWebUI.Pages
         }
     }
 }
+

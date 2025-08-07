@@ -31,6 +31,7 @@
                             <tr>
                                 <th>Product Name</th>
                                 <th>Description</th>
+                                <th>Price</th>
                                 <th>Edit</th>
                             </tr>
                         </thead>
@@ -40,6 +41,7 @@
                                 <tr>
                                     <td>@item.ProductName</td>
                                     <td>@item.ProductDescription</td>
+                                    <td>@item.Price</td>
                                     <td><a class="btn btn-primary text-white" href="/Module/Product/CreateProduct?id=@item.Id">Edit</a></td>
                                 </tr>
                             }

@@ -5,6 +5,7 @@ namespace InventorySystemWebUI.ViewModel;
 
 public class User
 {
+    
     [Required(ErrorMessage = "The user name is required")]
     public string UserName { get; set; }
 

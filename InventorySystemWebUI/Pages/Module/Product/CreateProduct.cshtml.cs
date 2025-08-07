@@ -87,7 +87,6 @@ namespace InventorySystemWebUI.Pages.Module.Product
             List<VariantsVM> dummyVariants = [];
             dummyVariants.AddRange(new VariantsVM
             {
-                Price = 0.00m,
                 Size = "",
                 Color = "",
             }

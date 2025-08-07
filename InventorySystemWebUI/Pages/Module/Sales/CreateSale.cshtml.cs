@@ -57,7 +57,6 @@ namespace InventorySystemWebUI.Pages.Module.Sales
                         + " <th style='text-align:center;padding:10px; border:1px solid lightgrey;'>S/N</th>"
                         + " <th style='text-align:center;padding:10px; border:1px solid lightgrey;'>Size</th>"
                         + " <th style='text-align:center;padding:10px; border:1px solid lightgrey;'>Color</th>"
-                        + " <th style='text-align:center;padding:10px; border:1px solid lightgrey;'>Price</th>"
                         + " </tr></thead>"
                         + " <tbody>";
 
@@ -70,7 +69,6 @@ namespace InventorySystemWebUI.Pages.Module.Sales
                                 + $"<td style='text-align:center;padding:10px; border:1px solid lightgrey;'>{sn++}</td>"
                                 + $"<td style='text-align:center;padding:10px; border:1px solid lightgrey;'>{variant.Size}</td>"
                                 + $"<td style='text-align:center;padding:10px; border:1px solid lightgrey;'>{variant.Color}</td>"
-                                + $"<td style='text-align:center;padding:10px; border:1px solid lightgrey;'>{variant.Price}</td>"
                                 + $"</tr>";
                         }
                     }
@@ -81,7 +79,7 @@ namespace InventorySystemWebUI.Pages.Module.Sales
 
                     div += "</tbody></table></div></div></div></div></div>";
                 }
-                json = System.Text.Json.JsonSerializer.Serialize(new { html = div, discount = product?.Discount ?? 0 },
+                json = System.Text.Json.JsonSerializer.Serialize(new { Html = div, Discount = product?.Discount ?? 0, Price = product?.Price },
                     new JsonSerializerOptions() { WriteIndented = true });
             }
             catch (Exception)
@@ -168,7 +166,8 @@ namespace InventorySystemWebUI.Pages.Module.Sales
                             #region RenderSales
                             string row =
                             $"<tr data-sale-id='{Sale.Id}'>" +
-                             $"<td class='sn'></td>" + // S/N will be set by JS
+                            $"<td class='sn'></td>" + // S/N will be set by JS
+                            $"<td>{Sale.Id}</td>" +
                             $"<td>{Sale.Barcodenumber}</td>" +
                             $"<td>{Sale.Quantity}</td>" +
                             $"<td>{Sale.PriceSold.ToString("N2")}</td>" +
@@ -200,10 +199,11 @@ namespace InventorySystemWebUI.Pages.Module.Sales
         }
 
         public async Task<IActionResult> OnGetRemoveSale(decimal discount, decimal priceSold,
-            int quantity, string barcode)
+            int quantity, string barcode, int id)
         {
             SalesVM sale = new SalesVM
             {
+                Id = id,
                 Discount = discount,
                 PriceSold = priceSold,
                 Quantity = quantity,

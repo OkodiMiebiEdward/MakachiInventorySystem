@@ -21,11 +21,12 @@ async function getDataFromModal(whatClicked) {
             const json = await response.json();
             if (json != "") {
                 var data = JSON.parse(json);
-                if (data && data.html) {
+                if (data && data.Html) {
                     $('#compmodal').empty();
-                    $('#compmodal').append(data.html);
+                    $('#compmodal').append(data.Html);
                     $("#compmodal").modal('show');
-                    $('#discount').val(data.discount);
+                    $('#discount').val(data.Discount);
+                    $('#price').val(data.Price);
                 }
             }
         }
@@ -70,12 +71,13 @@ $('#cart').on('click', async function () {
 });
 $(document).on('click', '.remove-sale-row', async function () {
     const $row = $(this).closest('tr');
-    const barcode = $row.find('td').eq(1).text();
-    const quantity = $row.find('td').eq(2).text();
-    const price = $row.find('td').eq(3).text().replace(/,/g, '');
-    const discount = $row.find('td').eq(4).text();
+    const id = $row.find('td').eq(1).text();
+    const barcode = $row.find('td').eq(2).text();
+    const quantity = $row.find('td').eq(3).text();
+    const price = $row.find('td').eq(4).text().replace(/,/g, '');
+    const discount = $row.find('td').eq(5).text();
     try {
-        const response = await fetch(`?handler=RemoveSale&discount=${discount}&priceSold=${price}&quantity=${quantity}&barcode=${barcode}`, { method: 'GET' });
+        const response = await fetch(`?handler=RemoveSale&discount=${discount}&priceSold=${price}&quantity=${quantity}&barcode=${barcode}&id=${id}`, { method: 'GET' });
         const json = await response.json();
         if (json != "") {
             var data = JSON.parse(json);
@@ -101,7 +103,7 @@ function updateSerialNumbersAndTotal() {
     const $tbody = $('#saleTable tbody');
     $tbody.find('tr').each(function (index) {
         $(this).find('td.sn').text(index + 1);
-        const priceText = $(this).find('td').eq(5).text().replace(/,/g, '');
+        const priceText = $(this).find('td').eq(6).text().replace(/,/g, '');
         const finalPrice = parseFloat(priceText) || 0;
         total += finalPrice;
     });
@@ -111,4 +113,29 @@ function updateSerialNumbersAndTotal() {
         $tbody.empty();
     }
 }
+function getDataFromTable() {
+    const rows = document.querySelectorAll("#salesTable tbody tr");
+    const subData = [];
+    let id = 0;
+    rows.forEach((row, index) => {
+        const cells = row.querySelectorAll("td");
+        if (index === 0) {
+            id = Number(cells[1].textContent?.trim());
+        }
+        const rowData = {
+            barcodenumber: cells[2].textContent?.trim() || "",
+            quantity: Number(cells[3].textContent?.trim()),
+            priceSold: Number(cells[4].textContent?.trim()),
+            discount: Number(cells[5].textContent?.trim()),
+            finalPrice: Number(cells[6].textContent?.trim()),
+        };
+        subData.push(rowData);
+    });
+    return {
+        id,
+        subData
+    };
+}
+$('#checkOut').on('click', async function () {
+});
 //# sourceMappingURL=createSales.js.map

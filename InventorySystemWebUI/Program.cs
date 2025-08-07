@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.SetApplicationCookie();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(sess => sess.IdleTimeout = TimeSpan.FromHours(5));
 builder.Services.AddHttpClient("MyHttpClient", client => client.Timeout = TimeSpan.FromMinutes(2));
 builder.SetAuthentication();

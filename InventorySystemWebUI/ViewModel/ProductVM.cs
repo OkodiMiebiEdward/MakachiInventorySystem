@@ -9,6 +9,7 @@
         public string SKU { get; set; }
         public string BarCodeNumber { get; set; }
         public decimal? Discount { get; set; } = 0.00m;
+        public decimal Price { get; set; } = 0.00m;
         public List<VariantsVM> Variants { get; set; } = new List<VariantsVM>();
     }
 }

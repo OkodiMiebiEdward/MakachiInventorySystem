@@ -137,9 +137,6 @@ function addTableRow(): void {
         <td style="padding:10px; border:1px solid lightgrey;">
             <input type="text" class="form-control code ${rowCount}" name="Product.Variants[${rowCount}].Color" />
         </td>
-        <td style="padding:10px; border:1px solid lightgrey;">
-            <input type="text" class="form-control descr ${rowCount}" name="Product.Variants[${rowCount}].Price" value="0.00"/>
-        </td>
     `;
     tableBody.appendChild(newRow);
 }

@@ -38,7 +38,7 @@
 
                         <div class="form-group col-md-3">
                             <label class="form-label">Price<span class="text-danger">*</span></label>
-                            <input class="form-control" id="price" type="number" />
+                            <input class="form-control" id="price" type="number" readonly/>
                         </div>
 
                         <div class="col-md-3">
@@ -58,11 +58,12 @@
                     <a href="/Module/Sales/CreateSales" class="btn btn-warning btn-md mt-3 mb-3" style="margin-left:10px" id=""><i class="fa fa-refresh"></i> Refresh</a>
                 </div>
 
-                <div class="table-responsive">
+                <div class="table-responsive actionTable" hidden>
                     <table id="saleTable" class="table actionTable" hidden>
                         <thead>
                             <tr>
                                 <th>S/N</th>
+                                <th>Id</th>
                                 <th>Barcodenumber</th>
                                 <th>Quantity</th>
                                 <th>Price Sold</th>
@@ -82,6 +83,7 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <button type="button" class="btn btn-success btn-md mt-3 mb-3" style="margin-left:20px" id="checkOut"><i class="fa fa-save"></i> Check out</button>
                 </div>
 
                 <div class="modal fade" id="compmodal"
