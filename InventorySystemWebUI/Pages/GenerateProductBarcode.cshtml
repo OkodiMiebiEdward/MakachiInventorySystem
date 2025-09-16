@@ -28,7 +28,7 @@
                         <tr>
                             <th>Product Name</th>
                             <th>Description</th>
-                            <th>BarCodeNumber</th>
+                            @* <th>BarCodeNumber</th> *@
                             <th>Generate Barcode</th>
                         </tr>
                     </thead>
@@ -38,11 +38,10 @@
                             <tr>
                                 <td>@item.ProductName</td>
                                 <td>@item.ProductDescription</td>
-                                <td>@item.BarCodeNumber</td>
+                                @* <td>@item.BarCodeNumber</td> *@
                                 <td>
                                     <button type="button" class="btn btn-primary"
                                     onclick="printBarcodeWithBase64(
-                                    '@item.BarCodeNumber',
                                     '@item.ProductName'.replace(/'/g, '\\\''),
                                     '@item.ProductDescription'.replace(/'/g, '\\\'')
                                     )">

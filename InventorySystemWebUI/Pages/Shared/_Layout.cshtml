@@ -1,9 +1,10 @@
 ﻿@{
     var currentPage = ViewContext.RouteData.Values["page"]?.ToString();
     var isIndexPage = string.Equals(currentPage, "/Index", StringComparison.OrdinalIgnoreCase);
-    var isLoginPage = string.Equals(currentPage, "/Login", StringComparison.OrdinalIgnoreCase);
-
-
+    //var isSignUpPage = string.Equals(currentPage, "/SignUp", StringComparison.OrdinalIgnoreCase);
+    var successCheckout = string.Equals(currentPage, "/SuccssCheckout", StringComparison.OrdinalIgnoreCase);
+    var isSessionExpiredPage = string.Equals(currentPage, "/SessionExpired",
+                                        StringComparison.OrdinalIgnoreCase);
 }
 
 <!DOCTYPE html>
@@ -12,7 +13,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@ViewData["Title"] - InventorySystemWebUI</title>
+    <title>@ViewData["Title"] - Makachi Service</title>
     <script type="importmap"></script>
     <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
     <link rel="apple-touch-icon" sizes="144x144" href="http://placehold.it/144.png/000/fff">
@@ -35,7 +36,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
-    @if (!isIndexPage && !isLoginPage)
+    @if (!isIndexPage && !isSessionExpiredPage)
     {
         <header>
             <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
@@ -124,7 +125,7 @@
                                                         <i class="fa fa-barcode"></i> <span>Generate Product Barcode</span>
                                                     </a>
                                                 </li>
-                                                <li><a asp-page="/Login"><i class="ti-power-off"></i> <span>Logout</span></a></li>
+                                                <li><a asp-page="/Index"><i class="ti-power-off"></i> <span>Logout</span></a></li>
                                             </ul>
                                         </div>
                                     </div>

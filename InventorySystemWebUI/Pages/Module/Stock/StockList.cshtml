@@ -28,7 +28,7 @@
                     <table class="datatable mb-4 ms-2 table table-hover">
                         <thead class="">
                             <tr>
-                                <th>Stock Number</th>
+                                <th>BarcodeNumber</th>
                                 <th>Product Name</th>
                                 <th>QuantityInStock</th>
                                 <th>Cost per unit price</th>
@@ -43,7 +43,7 @@
                             @foreach (var stock in Model.Stocks)
                             {
                                 <tr>
-                                    <td>@stock.StockNumber</td>
+                                    <td>@stock.BarCodeNumber</td>
                                     <td>@stock.ProductName</td>
                                     <td>@stock.QuantityInStock</td>
                                     <td>@stock.CostUnitPrice</td>

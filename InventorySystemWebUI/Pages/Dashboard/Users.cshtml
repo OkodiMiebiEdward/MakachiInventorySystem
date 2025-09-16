@@ -1,0 +1,49 @@
+﻿@page
+@model InventorySystemWebUI.Pages.Dashboard.UsersModel
+@{
+    ViewData["Title"] = "Total Users";
+}
+
+
+<div style="margin-left:220px" class="mt-3 d-flex justify-content-center align-items-center">
+    <div class="content-body container px-5">
+        <div class="content-header">
+            <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
+                <h3 class="content-header-title mb-0 me-3">Total Users</h3>
+                <div class="">
+                    <div class="">
+                        <ol class="">
+                            <li class="">
+                                <a href="/Home">Home</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="card" style="width:1000px">
+            <div class="p-1 card-body">
+                <p>Total Users: @Model.TotalUsers </p>
+            </div>
+
+            <table class="datatable mb-4 ms-2 table table-responsive table-hover">
+                <thead class="">
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Users)
+                    {
+                        <tr>
+                            <td>@item.UserName</td>
+                            <td>@item.Phonenumber</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>

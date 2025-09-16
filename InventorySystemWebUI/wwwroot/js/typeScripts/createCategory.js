@@ -28,6 +28,12 @@ jQuery(() => {
     else if (status === "Failed") {
         toastr.error(description);
     }
+    else if (status === "ServerError") {
+        toastr.error(description);
+        setTimeout(() => {
+            window.location.href = "/Module/Product/CreateCategory";
+        }, 5000);
+    }
 });
 $('#hiddenSave').on('click', () => {
     const categoryName = $('#categoryname').val();

@@ -12,6 +12,32 @@
 };
 
 jQuery(() => {
+    $('#variantsTableBody').on('click', '.remove-btn', function () {
+        // Find the row containing the clicked button
+        const $row = $(this).closest('tr');
+        const $tableBody = $('#variantsTableBody');
+        const rowCount = $tableBody.find('tr').length;
+
+        // Prevent removing the last row
+        if (rowCount <= 1) {
+            toastr.info("At least a single row should be displayed.");
+            return;
+        }
+
+        // Get the index of the row (0-based)
+        const rowIndex = $row.index();
+
+        // Optional: Show the index for debugging
+        // toastr.info(`Removing row at index: ${rowIndex}`);
+
+        // Remove the row
+        $row.remove();
+
+        // Optionally, reindex the remaining rows if needed
+        reindexTableRows($tableBody[0] as HTMLTableSectionElement);
+    });
+
+
     const status = $('#status').val() as string;
     const description = $('#description').val() as string;
 
@@ -32,6 +58,13 @@ jQuery(() => {
     else if (status === "Failed") {
         toastr.error(description);
     }
+
+    else if (status === "ServerError") {
+        toastr.error(description);
+        setTimeout(() => {
+            window.location.href = "/Module/Product/CreateProduct";
+        }, 5000)
+    }
 });
 
 
@@ -40,8 +73,6 @@ $('#hiddenSave').on('click', () => {
     const description = $('#productDescription').val() as string;
     const category = $('#selectedCategory').val() as string;
     const sku = $('#sku').val() as string;
-    const barcodenumber = $('#barcodenumber').val() as string;
-    const price = $('#price').val() as string;
 
     if (productName === "") {
         toastr.error("Please enter product name to proceed.", "Validation Error");
@@ -53,30 +84,20 @@ $('#hiddenSave').on('click', () => {
         return;
     }
 
-    if (category === "") {
-        toastr.error("Please select category to proceed.", "Validation Error");
-        return;
-    }
-
     if (sku === "") {
         toastr.error("Please generate the SKU code to proceed.", "Validation Error");
         return;
     }
 
-    if (barcodenumber === "") {
-        toastr.error("Please generate the bar code number to proceed.", "Validation Error");
-        return;
-    }
-
-    if (price === "") {
-        toastr.error("Please enter price to proceed.", "Validation Error");
+    if (category === "") {
+        toastr.error("Please select category to proceed.", "Validation Error");
         return;
     }
 
     $('#saveBtn').click();
 });
 
-function generate(option: number) {
+function randomFetch(option: number) {
     let productName = $('#productname').val() as string;
     let productDescription = $('#productDescription').val() as string;
     let category = $('#selectedCategory').val() as string;
@@ -119,6 +140,10 @@ function generate(option: number) {
     }
 }
 
+function attachRemoveButtonListener(removeButton: HTMLButtonElement, row: HTMLTableRowElement): void {
+    removeButton.addEventListener('click', () => removeTableRow(row));
+}
+
 function addTableRow(): void {
     const tableBody = document.getElementById('variantsTableBody') as HTMLTableSectionElement | null;
     if (!tableBody) {
@@ -137,6 +162,67 @@ function addTableRow(): void {
         <td style="padding:10px; border:1px solid lightgrey;">
             <input type="text" class="form-control code ${rowCount}" name="Product.Variants[${rowCount}].Color" />
         </td>
+        <td style="padding:10px; border:1px solid lightgrey; text-align:center";>
+            <button class="btn btn-danger remove-btn">Remove</button>
+        </td>
     `;
+
+    // Attach event listener to the remove button
+    const removeButton = newRow.querySelector('.remove-btn') as HTMLButtonElement;
+    if (removeButton) {
+        attachRemoveButtonListener(removeButton, newRow);
+    }
+
     tableBody.appendChild(newRow);
 }
+
+function removeTableRow(row: HTMLTableRowElement): void {
+    const tableBody = document.getElementById('variantsTableBody') as HTMLTableSectionElement | null;
+    if (!tableBody) return;
+
+    // Check how many rows are currently in the table body
+    const rows = tableBody.querySelectorAll('tr');
+    if (rows.length <= 1) {
+        toastr.info("At least a single row should be displayed.");
+        return;
+    }
+
+    row.remove();
+    reindexTableRows(tableBody);
+}
+
+function reindexTableRows(tableBody: HTMLTableSectionElement): void {
+    const rows = tableBody.rows;
+
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+
+        // Update row number
+        const numberCell = row.cells[0];
+        numberCell.textContent = (i + 1).toString();
+        numberCell.className = `${i}`;
+
+        // Update Size input
+        const sizeInput = row.querySelector('input[name^="Product.Variants"][name$=".Size"]') as HTMLInputElement;
+        if (sizeInput) {
+            sizeInput.name = `Product.Variants[${i}].Size`;
+            sizeInput.className = `form-control ${i}`;
+        }
+
+        // Update Color input
+        const colorInput = row.querySelector('input[name^="Product.Variants"][name$=".Color"]') as HTMLInputElement;
+        if (colorInput) {
+            colorInput.name = `Product.Variants[${i}].Color`;
+            colorInput.className = `form-control code ${i}`;
+        }
+
+        // Update Remove button class if needed (optional)
+        const removeButton = row.querySelector('.remove-btn') as HTMLButtonElement;
+        if (removeButton) {
+            removeButton.removeEventListener('click', () => removeTableRow(row)); // Remove old listener
+            removeButton.addEventListener('click', () => removeTableRow(row));    // Add new one
+        }
+    }
+}
+
+//Implement the remove button action

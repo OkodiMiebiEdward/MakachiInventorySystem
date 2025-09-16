@@ -16,11 +16,18 @@ jQuery(() => {
     if (status === "Success") {
         toastr.success(description);
         setTimeout(() => {
-            window.location.href = "/Login";
+            window.location.href = "/Home";
         }, 5000);
     }
     else if (status === "Failed") {
         toastr.error(description);
+    }
+
+    else if (status === "ServerError") {
+        toastr.error(description);
+        setTimeout(() => {
+            window.location.href = "/Home";
+        }, 5000)
     }
 });
 $('#check').on('click', () => {

@@ -7,8 +7,9 @@ using System.Text;
 
 namespace InventorySystemWebUI.Pages
 {
-    public class LoginModel : PageModel
+    public class SignUpModel : PageModel
     {
+
         private readonly IConfiguration _config;
         private string apiUrl = "";
 
@@ -17,8 +18,7 @@ namespace InventorySystemWebUI.Pages
 
         [BindProperty]
         public ResponseModel ResponseModel { get; set; } = new();
-
-        public LoginModel(IConfiguration config)
+        public SignUpModel(IConfiguration config)
         {
             _config = config;
             apiUrl = _config.GetValue<string>("BaseUrl")!;

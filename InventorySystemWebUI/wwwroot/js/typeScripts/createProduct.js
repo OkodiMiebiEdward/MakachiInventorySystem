@@ -11,6 +11,18 @@ toastr.options = {
     "hideMethod": "fadeOut"
 };
 jQuery(() => {
+    $('#variantsTableBody').on('click', '.remove-btn', function () {
+        const $row = $(this).closest('tr');
+        const $tableBody = $('#variantsTableBody');
+        const rowCount = $tableBody.find('tr').length;
+        if (rowCount <= 1) {
+            toastr.info("At least a single row should be displayed.");
+            return;
+        }
+        const rowIndex = $row.index();
+        $row.remove();
+        reindexTableRows($tableBody[0]);
+    });
     const status = $('#status').val();
     const description = $('#description').val();
     if (status === "Success") {
@@ -28,14 +40,18 @@ jQuery(() => {
     else if (status === "Failed") {
         toastr.error(description);
     }
+    else if (status === "ServerError") {
+        toastr.error(description);
+        setTimeout(() => {
+            window.location.href = "/Module/Product/CreateProduct";
+        }, 5000);
+    }
 });
 $('#hiddenSave').on('click', () => {
     const productName = $('#productname').val();
     const description = $('#productDescription').val();
     const category = $('#selectedCategory').val();
     const sku = $('#sku').val();
-    const barcodenumber = $('#barcodenumber').val();
-    const price = $('#price').val();
     if (productName === "") {
         toastr.error("Please enter product name to proceed.", "Validation Error");
         return;
@@ -44,25 +60,17 @@ $('#hiddenSave').on('click', () => {
         toastr.error("Please enter description to proceed.", "Validation Error");
         return;
     }
-    if (category === "") {
-        toastr.error("Please select category to proceed.", "Validation Error");
-        return;
-    }
     if (sku === "") {
         toastr.error("Please generate the SKU code to proceed.", "Validation Error");
         return;
     }
-    if (barcodenumber === "") {
-        toastr.error("Please generate the bar code number to proceed.", "Validation Error");
-        return;
-    }
-    if (price === "") {
-        toastr.error("Please enter price to proceed.", "Validation Error");
+    if (category === "") {
+        toastr.error("Please select category to proceed.", "Validation Error");
         return;
     }
     $('#saveBtn').click();
 });
-function generate(option) {
+function randomFetch(option) {
     let productName = $('#productname').val();
     let productDescription = $('#productDescription').val();
     let category = $('#selectedCategory').val();
@@ -94,6 +102,9 @@ function generate(option) {
         $('#barcodenumber').val(barcode);
     }
 }
+function attachRemoveButtonListener(removeButton, row) {
+    removeButton.addEventListener('click', () => removeTableRow(row));
+}
 function addTableRow() {
     const tableBody = document.getElementById('variantsTableBody');
     if (!tableBody) {
@@ -110,7 +121,50 @@ function addTableRow() {
         <td style="padding:10px; border:1px solid lightgrey;">
             <input type="text" class="form-control code ${rowCount}" name="Product.Variants[${rowCount}].Color" />
         </td>
+        <td style="padding:10px; border:1px solid lightgrey; text-align:center";>
+            <button class="btn btn-danger remove-btn">Remove</button>
+        </td>
     `;
+    const removeButton = newRow.querySelector('.remove-btn');
+    if (removeButton) {
+        attachRemoveButtonListener(removeButton, newRow);
+    }
     tableBody.appendChild(newRow);
+}
+function removeTableRow(row) {
+    const tableBody = document.getElementById('variantsTableBody');
+    if (!tableBody)
+        return;
+    const rows = tableBody.querySelectorAll('tr');
+    if (rows.length <= 1) {
+        toastr.info("At least a single row should be displayed.");
+        return;
+    }
+    row.remove();
+    reindexTableRows(tableBody);
+}
+function reindexTableRows(tableBody) {
+    const rows = tableBody.rows;
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const numberCell = row.cells[0];
+        numberCell.textContent = (i + 1).toString();
+        numberCell.className = `${i}`;
+        const sizeInput = row.querySelector('input[name^="Product.Variants"][name$=".Size"]');
+        if (sizeInput) {
+            sizeInput.name = `Product.Variants[${i}].Size`;
+            sizeInput.className = `form-control ${i}`;
+        }
+        const colorInput = row.querySelector('input[name^="Product.Variants"][name$=".Color"]');
+        if (colorInput) {
+            colorInput.name = `Product.Variants[${i}].Color`;
+            colorInput.className = `form-control code ${i}`;
+        }
+        const removeButton = row.querySelector('.remove-btn');
+        if (removeButton) {
+            removeButton.removeEventListener('click', () => removeTableRow(row));
+            removeButton.addEventListener('click', () => removeTableRow(row));
+        }
+    }
 }
 //# sourceMappingURL=createProduct.js.map

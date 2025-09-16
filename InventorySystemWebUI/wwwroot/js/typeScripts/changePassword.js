@@ -16,7 +16,7 @@ jQuery(() => {
     if (status === "Success") {
         toastr.success(description);
         setTimeout(() => {
-            window.location.href = "/Login";
+            window.location.href = "/Index";
         }, 5000);
     }
     else if (status === "Error") {

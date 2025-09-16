@@ -1,0 +1,25 @@
+﻿@page
+@model InventorySystemWebUI.Pages.SessionExpiredModel
+@{
+    ViewData["Title"] = "Session expired";
+    var loginUrl = "/Index";
+}
+
+<meta http-equiv="refresh" content="20000;url=@loginUrl" />
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center;">
+    <img src="~/assets/images/makachi.png" width="100" height="100" />
+    <h1>Session expired!!</h1>
+    <p>Your session has expired. You will be redirected shortly.</p>
+
+    <p>
+        <a href="@loginUrl">Continue now</a>
+    </p>
+</div>
+
+<script>
+    setTimeout(function () {
+        window.location.href = '@loginUrl';
+    }, 20000);
+</script>
+
+

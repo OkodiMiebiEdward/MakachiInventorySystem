@@ -31,15 +31,14 @@
                 <div class="card-body">
                     <p class="text-danger" style="font-style:italic">Note:All items in <span class="text-danger"> *</span> are required</p>
                     <div class="row">
-
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Stock Number <span class="text-danger">*</span></label>
                                 <input class="form-control" asp-for="Stock.StockNumber" id="stocknumber" type="text" />
                             </div>
                         </div>
 
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label class="form-label">Product List <span class="text-danger">*</span></label>
                             <select class="form-select"
                                     id="itemName" asp-for="Stock.ProductId">
@@ -51,14 +50,16 @@
                             </select>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Quantity in stock <span class="text-danger">*</span></label>
                                 <input class="form-control"  asp-for="Stock.QuantityInStock" id="quantityInStock" type="number"/>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group col-md-3">
+                    <div class="row">
+                        <div class="form-group col-md-4">
                             <label class="form-label">Category List <span class="text-danger">*</span></label>
                             <select class="form-select"
                                     id="selectedCategory" asp-for="Stock.CategoryId">
@@ -69,10 +70,7 @@
                                 }
                             </select>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Cost per unit<span style="color: red"> *</span></label>
                                 <div class="input-group">
@@ -81,7 +79,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Selling unit price<span style="color: red"> *</span></label>
                                 <div class="input-group">
@@ -89,8 +87,10 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Discount(%)</label>
                                 <div class="input-group">
@@ -99,11 +99,21 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Date</label>
                                 <div class="input-group">
                                     <input id="date" type="date" class="form-control" asp-for="Stock.CreatedAt" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Bar code Number<span style="color: red"> *</span></label>
+                                <div class="input-group">
+                                    <input id="barcodenumber" class="form-control" asp-for="Stock.BarCodeNumber" value="@Model.Stock.BarCodeNumber"/>
+                                    <button class="btn btn-primary" type="button" onclick="generate(1)">Generate</button>
                                 </div>
                             </div>
                         </div>

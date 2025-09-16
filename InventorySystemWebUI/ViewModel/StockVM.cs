@@ -14,5 +14,6 @@ public class StockVM
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
     public int CategoryId { get; set; }
     public string StockNumber { get; set; }
+    public string BarCodeNumber { get; set; }
     public decimal FinalPrice { get; set; }
 }

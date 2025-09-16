@@ -25,7 +25,13 @@ jQuery(() => {
     else if (status === "Role Exist") {
         toastr.error(description);
         setTimeout(() => {
-            window.location.href = "/Module/UserManagement/CreateUser";
+            window.location.href = "/Module/UserManagement/AssignRole";
+        }, 5000);
+    }
+    else if (status === "ServerError") {
+        toastr.error(description);
+        setTimeout(() => {
+            window.location.href = "/Module/UserManagement/AssignRole";
         }, 5000);
     }
 });

@@ -38,6 +38,7 @@ namespace InventorySystemWebUI.Pages.Module.Product
             if (id is not null)
             {
                 CanDelete = "Yes";
+                Categories = await PopulateCategories();
                 Product = await GetSingleProduct(id);
                 return Page();
             }

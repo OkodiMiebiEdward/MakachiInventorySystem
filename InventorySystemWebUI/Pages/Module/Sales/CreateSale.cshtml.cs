@@ -17,7 +17,7 @@ namespace InventorySystemWebUI.Pages.Module.Sales
         private readonly string apiUrl = "";
 
         [BindProperty]
-        public ProductVM Product { get; set; } = new();
+        public StockVM Product { get; set; } = new();
         public SalesVM Sale { get; set; } = new();
 
         public CreateSaleModel(IConfiguration config)
@@ -40,46 +40,53 @@ namespace InventorySystemWebUI.Pages.Module.Sales
                 var product = await GetProduct(barcodenumber);
                 if (product is not null)
                 {
-                    div = " <div class='modal-dialog' role='document'>"
-                        + " <div class='modal-content' style='width:700px'>"
-                        + " <div class='modal-header'>"
-                        + $" <h5 class='modal-title' id='exampleModalLabel1'>Product: {product.ProductName}</h5>"
-                        + " <button type='button' class='btn btn-danger' data-bs-dismiss='modal' onclick='getDataFromModal(0)' aria-label='Close'>Close</button>"
-                        + " </div>"
-                        + " <div class='modal-body'>"
-                        + $" <p><strong>Description:</strong> {product.ProductDescription}</p>"
-                        + $" <p><strong>SKU:</strong> {product.SKU}</p>"
-                        + $" <p><strong>Barcode:</strong> {product.BarCodeNumber}</p>"
-                        + " <div class='col-md-12'>"
-                        + " <div class='table-responsive'>"
-                        + " <table id='dtabModal' class='table table-hover'>"
-                        + " <thead><tr>"
-                        + " <th style='text-align:center;padding:10px; border:1px solid lightgrey;'>S/N</th>"
-                        + " <th style='text-align:center;padding:10px; border:1px solid lightgrey;'>Size</th>"
-                        + " <th style='text-align:center;padding:10px; border:1px solid lightgrey;'>Color</th>"
-                        + " </tr></thead>"
-                        + " <tbody>";
+                   div = $@"
+                    <div class='modal-dialog' role='document'>
+                        <div class='modal-content' style='width:700px'>
+                            <div class='modal-header'>
+                                <h5 class='modal-title' id='exampleModalLabel1'>Product: {product.ProductName}</h5>
+                                <button type='button' class='btn btn-danger' data-bs-dismiss='modal' onclick='getDataFromModal(0)' aria-label='Close'>Close</button>
+                            </div>
+                            <div class='modal-body'>
+                                <p><strong>Stock Number:</strong> {product.StockNumber}</p>
+                                <p><strong>BarcodeNumber:</strong> {product.BarCodeNumber}</p>
+                            </div>
+                        </div>
+                   </div>";
 
-                    if (product.Variants != null && product.Variants.Count > 0)
-                    {
-                        int sn = 1;
-                        foreach (var variant in product.Variants)
-                        {
-                            div += $"<tr>"
-                                + $"<td style='text-align:center;padding:10px; border:1px solid lightgrey;'>{sn++}</td>"
-                                + $"<td style='text-align:center;padding:10px; border:1px solid lightgrey;'>{variant.Size}</td>"
-                                + $"<td style='text-align:center;padding:10px; border:1px solid lightgrey;'>{variant.Color}</td>"
-                                + $"</tr>";
-                        }
-                    }
-                    else
-                    {
-                        div += "<tr><td colspan='4' style='text-align:center;'>No variants available.</td></tr>";
-                    }
+                    #region TableSection
+                    //    //+ $" <p><strong>Barcode:</strong> {product.BarCodeNumber}</p>"
+                    //    + " <div class='col-md-12'>"
+                    //    + " <div class='table-responsive'>"
+                    //    + " <table id='dtabModal' class='table table-hover'>"
+                    //    + " <thead><tr>"
+                    //    + " <th style='text-align:center;padding:10px; border:1px solid lightgrey;'>S/N</th>"
+                    //    + " <th style='text-align:center;padding:10px; border:1px solid lightgrey;'>Size</th>"
+                    //    + " <th style='text-align:center;padding:10px; border:1px solid lightgrey;'>Color</th>"
+                    //    + " </tr></thead>"
+                    //    + " <tbody>";
 
-                    div += "</tbody></table></div></div></div></div></div>";
+                    //if (product.Variants != null && product.Variants.Count > 0)
+                    //{
+                    //    int sn = 1;
+                    //    foreach (var variant in product.Variants)
+                    //    {
+                    //        div += $"<tr>"
+                    //            + $"<td style='text-align:center;padding:10px; border:1px solid lightgrey;'>{sn++}</td>"
+                    //            + $"<td style='text-align:center;padding:10px; border:1px solid lightgrey;'>{variant.Size}</td>"
+                    //            + $"<td style='text-align:center;padding:10px; border:1px solid lightgrey;'>{variant.Color}</td>"
+                    //            + $"</tr>";
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    div += "<tr><td colspan='4' style='text-align:center;'>No variants available.</td></tr>";
+                    //}
+
+                    //div += "</tbody></table></div></div></div></div></div>";
+                    #endregion
                 }
-                json = System.Text.Json.JsonSerializer.Serialize(new { Html = div, Discount = product?.Discount ?? 0, Price = product?.Price },
+                json = System.Text.Json.JsonSerializer.Serialize(new { Html = div, Discount = product?.Discount, Price = product?.SellingUnitPrice},
                     new JsonSerializerOptions() { WriteIndented = true });
             }
             catch (Exception)
@@ -89,9 +96,9 @@ namespace InventorySystemWebUI.Pages.Module.Sales
             return new JsonResult(json);
         }
 
-        private async Task<ProductVM> GetProduct(string codenumber)
+        private async Task<StockVM> GetProduct(string codenumber)
         {
-            ProductVM product = new();
+            StockVM product = new();
             string token = HttpContext.Session.GetString("AuthToken")!;
             try
             {
@@ -106,14 +113,14 @@ namespace InventorySystemWebUI.Pages.Module.Sales
                         if (Response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             var json = await Response.Content.ReadAsStringAsync();
-                            product = JsonConvert.DeserializeObject<ProductVM>(json)!;
+                            product = JsonConvert.DeserializeObject<StockVM>(json)!;
                             Product = product;
                             return product;
                         }
                         else
                         {
                             var json = await Response.Content.ReadAsStringAsync();
-                            product = JsonConvert.DeserializeObject<ProductVM>(json)!;
+                            product = JsonConvert.DeserializeObject<StockVM>(json)!;
                             return Product;
                         }
                     }
@@ -121,7 +128,7 @@ namespace InventorySystemWebUI.Pages.Module.Sales
             }
             catch (Exception)
             {
-                return new ProductVM();
+                return new StockVM();
             }
         }
 
@@ -167,7 +174,6 @@ namespace InventorySystemWebUI.Pages.Module.Sales
                             string row =
                             $"<tr data-sale-id='{Sale.Id}'>" +
                             $"<td class='sn'></td>" + // S/N will be set by JS
-                            $"<td>{Sale.Id}</td>" +
                             $"<td>{Sale.Barcodenumber}</td>" +
                             $"<td>{Sale.Quantity}</td>" +
                             $"<td>{Sale.PriceSold.ToString("N2")}</td>" +
@@ -199,11 +205,10 @@ namespace InventorySystemWebUI.Pages.Module.Sales
         }
 
         public async Task<IActionResult> OnGetRemoveSale(decimal discount, decimal priceSold,
-            int quantity, string barcode, int id)
+            int quantity, string barcode)
         {
             SalesVM sale = new SalesVM
             {
-                Id = id,
                 Discount = discount,
                 PriceSold = priceSold,
                 Quantity = quantity,

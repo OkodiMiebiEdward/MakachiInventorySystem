@@ -30,7 +30,7 @@
                 <div class="card-body">
                     <p class="text-danger" style="font-style:italic">Note:All items in <span class="text-danger"> *</span> are required</p>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Enter Product Name <span class="text-danger">*</span></label>
                                 <input type="text"
@@ -40,14 +40,26 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Enter Product Description <span class="text-danger">*</span></label>
                                 <input class="form-control" placeholder="Enter detailed description here" asp-for="Product.ProductDescription" id="productDescription"/>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">SKU<span style="color: red"> *</span></label>
+                                <div class="input-group">
+                                    <input id="sku" class="form-control" asp-for="Product.SKU" value="@Model.Product.SKU"/>
+                                    <button class="btn btn-primary" type="button" onclick="randomFetch(0)">Generate</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
                             <label class="form-label">Category List <span class="text-danger">*</span></label>
                             <select class="form-select"
                                     id="selectedCategory" asp-for="Product.CategoryId">
@@ -58,27 +70,7 @@
                                 }
                             </select>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">Price<span style="color: red"> *</span></label>
-                                <input type="number" id="price" class="form-control" asp-for="Product.Price" value="@Model.Product.Price" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">SKU<span style="color: red"> *</span></label>
-                                <div class="input-group">
-                                    <input id="sku" class="form-control" asp-for="Product.SKU" value="@Model.Product.SKU"/>
-                                    <button class="btn btn-primary" type="button" onclick="generate(0)">Generate</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
+                        @* <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Bar code Number<span style="color: red"> *</span></label>
                                 <div class="input-group">
@@ -86,13 +78,13 @@
                                     <button class="btn btn-primary" type="button" onclick="generate(1)">Generate</button>
                                 </div>
                             </div>
-                        </div>
+                        </div> *@
                     </div>
 
 
                     <div class="row mt-3">
                         <div class="input-group mb-3 col-md-4">
-                            <button class="btn btn-primary btn-large" id="btnaddmorerow" type="button" onclick="addTableRow()">Add New Role</button>
+                            <button class="btn btn-primary btn-large" id="btnaddmorerow" type="button" onclick="addTableRow()">Add Product Variation</button>
                         </div>
                     </div>
 
@@ -107,8 +99,9 @@
                                             <thead class="table">
                                                 <tr>
                                                     <th style="text-align:center;padding:5px; border:1px solid lightgrey; "> S/N </th>
-                                                    <th style="text-align:center;padding:5px; border:1px solid lightgrey; "> Size <span style="color:red">*</span> </th>
-                                                    <th style="text-align:center;padding:5px; border:1px solid lightgrey; "> Color <span style="color:red">*</span></th>
+                                                    <th style="text-align:center;padding:5px; border:1px solid lightgrey; "> Size  </th>
+                                                    <th style="text-align:center;padding:5px; border:1px solid lightgrey; "> Color </th>
+                                                    <th style="text-align:center;padding:5px; border:1px solid lightgrey; "> Remove </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="variantsTableBody" class="tabletb">
@@ -124,6 +117,9 @@
                                                         </td>
                                                         <td style="padding:10px; border:1px solid lightgrey;">
                                                             <input type="text" class="form-control code @i" value="@items.Color" asp-for="Product.Variants[i].Color">
+                                                        </td>
+                                                        <td style="padding:10px; border:1px solid lightgrey; text-align:center";>
+                                                            <button class="btn btn-danger remove-btn">Remove</button>
                                                         </td>
                                                     </tr>
                                                 }

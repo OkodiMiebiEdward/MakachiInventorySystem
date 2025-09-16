@@ -36,10 +36,18 @@ namespace InventorySystemWebUI.Pages
             {
                 var token = await _generalService.GetUserInfo(User);
                 if (string.IsNullOrWhiteSpace(token))
+                {
+                    ResponseModel.Status = "Error";
+                    ResponseModel.Description = "User does not exist or the provided credentials are incorrect";
                     return Page();
+                }
                 else
+                {
                     // Storing token in session
                     HttpContext.Session.SetString("AuthToken", token);
+                    HttpContext.Session.SetString("AuthTokenIssuedAt", DateTime.UtcNow.Ticks.ToString());
+                }
+   
 
                 using (HttpClient client = new HttpClient())
                 {
