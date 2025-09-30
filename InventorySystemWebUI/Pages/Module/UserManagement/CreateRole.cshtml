@@ -4,33 +4,31 @@
     ViewData["Title"] = "Create New Role";
 }
 
-<div style="margin-left:220px" class="d-flex justify-content-center align-items-center">
-    <input hidden value="@Model.CanDelete"/>
-    <div class="content-body container px-5">
+<div class="container-fluid px-1 ms-3">
+    <input hidden value="@Model.CanDelete" />
+    <div class="content-body container">
         <div class="content-header">
-            <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
-                <h3 class="content-header-title mb-0 me-3">CREATE NEW ROLE</h3>
-                <div class="">
-                    <div class="">
-                        <ol class="">
-                            <li class="">
-                                <a href="/Home">Home</a>
-                            </li>
-                        </ol>
-                    </div>
+            <div class="row mb-2 align-items-center">
+                <div class="col-12 col-md-8 d-flex breadcrumb-new">
+                    <h3 class="content-header-title mb-0 me-3">CREATE NEW ROLE</h3>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/Home">Home</a>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </div>
 
-        <section class="card" style="width:1000px">
+        <section class="card">
             <form method="post">
                 <input type="hidden" value="@Model.ResponseModel.Status" id="status" />
                 <input type="hidden" value="@Model.ResponseModel.Description" id="description" />
                 <div class="card-body">
-                    <p class="text-danger" style="font-style:italic">Note:All items in <span class="text-danger"> *</span> are required</p>
+                    <p class="text-danger fst-italic">Note: All items in <span class="text-danger">*</span> are required</p>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
                                 <label class="form-label">Enter Role Name <span class="text-danger">*</span></label>
                                 <input type="text"
                                        class="form-control"
@@ -39,30 +37,31 @@
                                        readonly="@(Model.CanDelete == "Yes" ? "readonly" : null)" />
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label class="form-label">Role Description <span class="text-danger">*</span></label>
-                                <textarea class="form-control" rows="4" cols="100" placeholder="Enter detailed description here" asp-for="Role.RoleDescription" id="textDescription"></textarea>
+                                <textarea class="form-control" rows="4" placeholder="Enter detailed description here" asp-for="Role.RoleDescription" id="textDescription"></textarea>
                             </div>
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-success btn-md mt-3 mb-3" style="margin-left:10px" id="hiddenSave"><i class="fa fa-save"></i> Save</button>
-                    <button type="submit" class="btn btn-success btn-md mt-3 mb-3" style="margin-left:10px" hidden id="saveBtn"><i class="fa fa-save"></i> Save</button>
-                    <a href="/Module/UserManagement/CreateRole" class="btn btn-warning btn-md mt-3 mb-3" style="margin-left:10px" id=""><i class="fa fa-refresh"></i> Refresh</a>
-                    <a href="/Module/UserManagement/RoleList" class="btn btn-primary btn-md mt-3 mb-3" style="margin-left:10px" id=""><i class="fa fa-eye"></i> View Saved Records</a>
-                    <button type="submit"
-                            class="btn btn-danger btn-md mt-3 mb-3"
-                            style="margin-left:10px"
-                            hidden="@(Model.CanDelete == "No" ? "hidden" : null)"
-                            asp-page-handler="Delete">
-                       <i class="fa fa-trash"></i> Delete
-                    </button>
+                    <div class="d-flex flex-wrap gap-2 mt-3 mb-3">
+                        <button type="button" class="btn btn-success" id="hiddenSave"><i class="fa fa-save"></i> Save</button>
+                        <button type="submit" class="btn btn-success" hidden id="saveBtn"><i class="fa fa-save"></i> Save</button>
+                        <a href="/Module/UserManagement/CreateRole" class="btn btn-warning"><i class="fa fa-refresh"></i> Refresh</a>
+                        <a href="/Module/UserManagement/RoleList" class="btn btn-primary"><i class="fa fa-eye"></i> View Saved Records</a>
+                        <button type="submit"
+                                class="btn btn-danger"
+                                hidden="@(Model.CanDelete == "No" ? "hidden" : null)"
+                                asp-page-handler="Delete">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                    </div>
                 </div>
             </form>
         </section>
-       
     </div>
 </div>
+
 
 @section Scripts {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
