@@ -9,7 +9,6 @@ namespace InventorySystemWebUI.Pages
 {
     public class SignUpModel : PageModel
     {
-
         private readonly IConfiguration _config;
         private string apiUrl = "";
 
