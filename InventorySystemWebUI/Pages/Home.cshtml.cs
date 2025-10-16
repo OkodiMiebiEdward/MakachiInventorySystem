@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace InventorySystemWebUI.Pages;
@@ -11,8 +12,8 @@ public class HomeModel : PageModel
         _logger = logger;
     }
 
-    public void OnGet()
+    public ActionResult OnGet()
     {
-
+        return Page();
     }
 }
