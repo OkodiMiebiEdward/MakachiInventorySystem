@@ -4,56 +4,68 @@
     ViewData["Title"] = "Users/Role List";
 }
 
-<div style="margin-left:220px" class="mt-3 d-flex justify-content-center align-items-center">
-    <div class="content-body container px-5">
+<style>
+    @@media (min-width: 768px) {
+        .custom-margin {
+            margin-left: 150px;
+        }
+
+        .custom-width {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="container-fluid px-1 custom-margin">
+    <div class="content-body container">
         <div class="content-header">
-            <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
-                <h3 class="content-header-title mb-0 me-3">USERS/ROLE LIST</h3>
-                <div class="">
-                    <div class="">
-                        <ol class="">
-                            <li class="">
-                                <a href="/Home">Home</a>
-                            </li>
-                        </ol>
-                    </div>
+            <div class="row mb-2 align-items-center">
+                <div class="col-md-8 col-12 d-flex breadcrumb-new">
+                    <h3 class="content-header-title mb-0 ms-5">USERS/ROLE LIST</h3>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/Home" class="ms-3">Home</a></li>
+                    </ol>
                 </div>
             </div>
         </div>
 
-        <section class="card" style="width:1000px">
-            <div class="p-1 card-body">
-                <a asp-page="/Module/UserManagement/AssignRole" class="btn btn-primary btn-md ms-5">Assign Role</a>
+        <section class="card custom-width">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-start mb-3">
+                    <a asp-page="/Module/UserManagement/AssignRole" class="btn btn-primary btn-md">Assign Role</a>
+                </div>
                 <hr />
-                <table class="datatable mb-4 ms-2 table table-responsive table-hover">
-                    <thead class="">
-                        <tr>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>Edit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var user in Model.UsersWithRoles)
-                        {
+                <div class="table-responsive">
+                    <table class="datatable table table-hover mb-4">
+                        <thead>
                             <tr>
-                                <td>@user.UserName</td>
-                                <td>@string.Join(", ", user.Roles)</td>
-                                <td>
-                                    @foreach (var role in user.Roles)
-                                    {
-                                        <a class="btn btn-primary btn-sm mb-1" href="/Module/UserManagement/AssignRole?name=@user.UserName&role=@role">Edit @role</a>
-                                    }
-                                </td>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Edit</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.UsersWithRoles)
+                            {
+                                <tr>
+                                    <td>@user.UserName</td>
+                                    <td>@string.Join(", ", user.Roles)</td>
+                                    <td>
+                                        @foreach (var role in user.Roles)
+                                        {
+                                            <a class="btn btn-primary btn-sm mb-1" href="/Module/UserManagement/AssignRole?name=@user.UserName&role=@role">Edit @role</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
-
     </div>
 </div>
+
 
 @section scripts {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />

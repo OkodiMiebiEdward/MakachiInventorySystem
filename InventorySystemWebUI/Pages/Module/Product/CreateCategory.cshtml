@@ -11,10 +11,20 @@
         min-width: 1.5em;
         min-height: 1.5em;
     }
+
+    @@media (min-width: 768px) {
+        .custom-margin {
+            margin-left: 150px;
+        }
+
+        .custom-width {
+            width: 650px;
+        }
+    }
 </style>
 
-<div style="margin-left:220px" class="d-flex justify-content-center align-items-center">
-    <div class="content-body container px-5">
+<div class="container-fluid px-1 custom-margin">
+    <div class="content-body container">
         <div class="content-header">
             <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
                 <h3 class="content-header-title mb-0 me-3">CREATE NEW CATEGORY</h3>
@@ -30,7 +40,7 @@
             </div>
         </div>
 
-        <section class="card" style="width:1000px">
+        <section class="card custom-width">
             <form method="post">
                 <input type="hidden" value="@Model.ResponseModel.Status" id="status" />
                 <input type="hidden" value="@Model.ResponseModel.Description" id="description" />

@@ -4,31 +4,38 @@
     ViewData["Title"] = "Generate Product Barcode";
 }
 
-<div style="margin-left:220px" class="mt-3 d-flex justify-content-center align-items-center">
-    <div class="content-body container px-5">
+<style>
+    @@media (min-width: 768px) {
+        .custom-margin {
+            margin-left: 150px;
+        }
+
+        .custom-width {
+            width: 650px;
+        }
+    }
+</style>
+
+<div class="container-fluid px-1 custom-margin">
+    <div class="content-body container">
         <div class="content-header">
-            <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
-                <h3 class="content-header-title mb-0 me-3">GENERATE BARCODE</h3>
-                <div class="">
-                    <div class="">
-                        <ol class="">
-                            <li class="">
-                                <a href="/Home">Home</a>
-                            </li>
-                        </ol>
-                    </div>
+            <div class="row mb-2 align-items-center">
+                <div class="col-md-8 col-12 d-flex breadcrumb-new">
+                    <h3 class="content-header-title mb-0 ms-5">GENERATE BARCODE</h3>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/Home" class="ms-2">Home</a></li>
+                    </ol>
                 </div>
             </div>
         </div>
 
-        <section class="card" style="width:1000px">
+        <section class="card custom-width">
             <div class="p-1 card-body">
                 <table class="datatable mb-4 ms-2 table table-responsive table-hover">
                     <thead class="">
                         <tr>
                             <th>Product Name</th>
                             <th>Description</th>
-                            @* <th>BarCodeNumber</th> *@
                             <th>Generate Barcode</th>
                         </tr>
                     </thead>
@@ -38,7 +45,6 @@
                             <tr>
                                 <td>@item.ProductName</td>
                                 <td>@item.ProductDescription</td>
-                                @* <td>@item.BarCodeNumber</td> *@
                                 <td>
                                     <button type="button" class="btn btn-primary"
                                     onclick="printBarcodeWithBase64(
@@ -66,8 +72,8 @@
             $('.datatable').DataTable();
         });
 
-                function printBarcodeWithBase64(code, productName, productDescription) {
-            fetch(`/GenerateProductBarcode?handler=GenerateBarcode&code=${encodeURIComponent(code)}`)
+                function printBarcodeWithBase64(productName, productDescription) {
+            fetch(`/GenerateProductBarcode?handler=GenerateBarcode&code=${productName}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -77,7 +83,6 @@
                                 <div style="font-weight:bold; font-size:16px;">${productName}</div>
                                 <div style="font-size:12px; margin-bottom:4px;">${productDescription}</div>
                                 <img src="data:image/png;base64,${data.base64}" style="max-width:300px; margin:8px 0;" />
-                                <div style="font-size:12px;">${code}</div>
                             </div>
                             <script>
                                 window.onload = function() { window.print(); window.close(); }

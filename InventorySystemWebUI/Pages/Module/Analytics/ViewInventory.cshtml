@@ -7,14 +7,29 @@
         .ToList();
     var quantities = Model.Inventory.Select(i => i.QuantityInStock).ToList();
 }
-@* <pre style="margin-left:270px">
-@string.Join(", ", productNames)
-@string.Join(", ", quantities)
-</pre> *@
 
-<div style="margin-left:300px;">
-    <canvas id="inventoryChart" width="600" height="400"></canvas>
-</div>
+<style>
+    @@media (min-width: 768px) {
+        .custom-margin {
+            margin-left: 150px;
+        }
+
+        .custom-width {
+            width: 650px;
+        }
+    }
+</style>
+
+<div class="container-fluid px-1 custom-margin">
+        <div class="content-body container">
+            <section class="card custom-width">
+                <div style="">
+                    <canvas id="inventoryChart" width="600" height="400"></canvas>
+                </div>
+            </section>
+        </div>
+    </div>
+
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

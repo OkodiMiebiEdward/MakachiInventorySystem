@@ -5,9 +5,7 @@
 }
 
 <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet" />
-
 <style>
-
     html, body {
         height: 100vh;
         width: 100vw;
@@ -104,111 +102,86 @@
         color: #1e40af;
         text-decoration: underline;
     }
+
+    @@media (max-width: 1200px) {
+        .form-wrapper {
+            margin-left: 80px;
+            max-width: 480px;
+        }
+    }
+
+    @@media (max-width: 992px) {
+        .form-wrapper {
+            margin-left: 60px;
+            max-width: 440px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .form-wrapper {
+            margin-left: 50px;
+            max-width: 400px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .form-wrapper {
+            margin-left: 0;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            max-width: 100%;
+        }
+    }
 </style>
 
-@* <style>
-    .login-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        /* background: url('/images/ZixRKo.jpg') no-repeat center center fixed; */
-        /* background-size: cover; */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 0;
-    }
-
-    .login-bg::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(30, 41, 59, 0.55);
-        backdrop-filter: blur(2px);
-        z-index: 0;
-    }
-</style> *@
-<div style="margin-left:700px" class="d-flex justify-content-center align-items-center ">
-    <div class="content-body container px-5">
-        <div class="content-header">
-            <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
-                <h3 class="content-header-title mb-0 me-3">CREATE ACCOUNT</h3>
-                <div class="">
-                    <div class="">
-                        <ol class="">
-                            <li class="">
-                                <a href="/Home">Home</a>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <section class="" style="width:500px">
-            <form method="post">
-                <input type="hidden" value="@Model.ResponseModel.Status" id="status" />
-                <input type="hidden" value="@Model.ResponseModel.Description" id="description" />
-                <div class="card-body">
-                   
-                    <div class="">
+<div class="container-fluid px-2 ms-4">
+    <div class="row">
+        <div class="col-12 px-3 px-sm-4 px-md-5 px-lg-5 px-xl-5 ms-2 ms-sm-3 ms-md-4 ms-lg-5 ms-xl-5">
+            <div class="form-wrapper mx-auto" style="max-width: 500px; margin-left: 200px;">
+                <section class="card p-4 shadow-sm mt-4">
+                    <h3 class="mb-4 text-center">CREATE ACCOUNT</h3>
+                    <form method="post" autocomplete="off">
                         <input type="hidden" value="@Model.ResponseModel.Status" id="status" />
                         <input type="hidden" value="@Model.ResponseModel.Description" id="description" />
 
-                        <div class="login-card shadow-lg">
-                            
-                            <form method="post" autocomplete="off">
-                                <div class="form-group">
-                                    <span class="input-icon">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" /><path d="M5.5 21a8.38 8.38 0 0 1 13 0" /></svg>
-                                    </span>
-                                    <input type="text" class="form-control" id="username" placeholder="Username" asp-for="User.UserName" autocomplete="username" value="">
-                                    <span class="text-danger" asp-validation-for="User.UserName"></span>
-                                </div>
-                                <div class="form-group">
-                                    <span class="input-icon">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v16H4z" /><path d="M22 6l-10 7L2 6" /></svg>
-                                    </span>
-                                    <input type="email" class="form-control" id="email" placeholder="Email" asp-for="User.Email" autocomplete="email" value="">
-                                    <span class="text-danger" asp-validation-for="User.Email"></span>
-                                </div>
-                                <div class="form-group">
-                                    <span class="input-icon">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 10a9 9 0 0 1 18 0" /><path d="M12 19v-4" /><circle cx="12" cy="15" r="1" /></svg>
-                                    </span>
-                                    <input type="number" class="form-control" id="phonenumber" placeholder="Phone number" asp-for="User.Phonenumber" value="">
-                                    <span class="text-danger" asp-validation-for="User.Phonenumber"></span>
-                                </div>
-                                <div class="form-group">
-                                    <span class="input-icon">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-                                    </span>
-                                    <input type="password" class="form-control" id="password" placeholder="Password" asp-for="User.Password" autocomplete="new-password" value="">
-                                    <span class="text-danger" asp-validation-for="User.Password"></span>
-                                </div>
-                                <div class="form-group">
-                                    <span class="input-icon">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-                                    </span>
-                                    <input type="password" class="form-control" id="confirmpassword" placeholder="Confirm Password" asp-for="User.ConfirmPassword" autocomplete="new-password" value="">
-                                    <span class="text-danger" asp-validation-for="User.ConfirmPassword"></span>
-                                </div>
-                                <button type="submit" class="btn btn-primary" hidden id="post">Submit</button>
-                                <button type="button" class="btn btn-primary" id="check">Submit</button>
-                            </form>
-             
+                        <div class="form-group mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="Username" asp-for="User.UserName" autocomplete="username">
+                            <span class="text-danger" asp-validation-for="User.UserName"></span>
                         </div>
-                      
-                    </div>
-                </div>
-            </form>
-        </section>
+
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Email" asp-for="User.Email" autocomplete="email">
+                            <span class="text-danger" asp-validation-for="User.Email"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="phonenumber" class="form-label">Phone Number</label>
+                            <input type="number" class="form-control" id="phonenumber" placeholder="Phone number" asp-for="User.Phonenumber">
+                            <span class="text-danger" asp-validation-for="User.Phonenumber"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password" asp-for="User.Password" autocomplete="new-password">
+                            <span class="text-danger" asp-validation-for="User.Password"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="confirmpassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmpassword" placeholder="Confirm Password" asp-for="User.ConfirmPassword" autocomplete="new-password">
+                            <span class="text-danger" asp-validation-for="User.ConfirmPassword"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary d-none" id="post">Submit</button>
+                            <button type="button" class="btn btn-primary" id="check">Submit</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
     </div>
 </div>
 
