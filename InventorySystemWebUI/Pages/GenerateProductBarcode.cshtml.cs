@@ -73,7 +73,7 @@ namespace InventorySystemWebUI.Pages
                 {
                     client.DefaultRequestHeaders.Authorization =
                         new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                    var endPoint = apiUrl + "/api/BarCodeGenerator/GenerateBarcode?barCodeNumber=" + Uri.EscapeDataString(code);
+                    var endPoint = apiUrl + "/api/BarCodeGenerator/GenerateBarcode?productName=" + code;
 
                     using (var response = await client.GetAsync(endPoint))
                     {
