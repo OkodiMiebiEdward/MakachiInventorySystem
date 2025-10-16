@@ -7,7 +7,7 @@ namespace InventorySystemWebUI.Service;
 
 public interface IGeneralService
 {
-  Task<string> GetUserInfo(User user);
+    Task<string> GetUserInfo(User user);
 }
 
 public class GeneralService : IGeneralService
