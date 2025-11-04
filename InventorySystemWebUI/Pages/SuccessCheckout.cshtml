@@ -4,13 +4,31 @@
     ViewData["Title"] = "Checkout";
 }
 
+<style>
+    @@media (min-width: 768px) {
+        .custom-margin {
+            margin-left: 200px;
+        }
 
+        .custom-width {
+            width: 800px;
+        }
+    }
+</style>
 
-<div style="margin-left:220px" class="d-flex justify-content-center align-items-center">
-    <section class="card" style="width:1000px">
+<div class="container-fluid px-1 custom-margin">
+    <section class="card custom-width">
         <form method="post">
             <div class="card-body">
-                <a class="btn btn-primary" href="/Home">home</a>
+                <div class="">
+                    <div class="">
+                        <ol class="">
+                            <li class="">
+                                <a href="/Home" class="ms-3">Home</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
                 <h3 class="text-success">Check out successful</h3>
             </div>
         </form>

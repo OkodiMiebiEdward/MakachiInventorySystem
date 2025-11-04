@@ -174,28 +174,29 @@ $('#checkOut').on('click', async function () {
             || contentType.includes("application/pdf")
             || contentType.includes("application/vnd")) {
             const blob = await response.blob();
-            let exportFormat = 'pdf';
-            let url = (exportFormat == 'pdf') ?
-                window.URL.createObjectURL(new Blob([blob], { type: 'application/pdf' })) :
-                (exportFormat == 'excel') ?
-                    window.URL.createObjectURL(new Blob([blob], { type: 'application/vnd.ms-excel' })) :
-                    window.URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
-            window.location.href = "/SuccessCheckout";
-            window.open(url, '_blank');
+            let url = window.URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
+            const newWindow = window.open(url, '_blank');
+            if (!newWindow) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Receipt.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            }
+            setTimeout(() => {
+                window.location.href = "/SuccessCheckout";
+            }, 300);
         }
         else if (contentType.includes("application/json")) {
             const data = await response.json();
             if (data.status.toLocaleLowerCase() != 'success') { }
-            else {
-            }
+            else { }
         }
         else if (contentType.includes("text/")) {
             const text = await response.text();
             { }
         }
-    }
-    else {
-        { }
     }
     return;
 });

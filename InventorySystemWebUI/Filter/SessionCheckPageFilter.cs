@@ -5,7 +5,7 @@ namespace InventorySystemWebUI.Filter
 {
     public class SessionCheckPageFilter : IPageFilter
     {
-        private const int TokenExpirySeconds = 600;
+        private const int TokenExpirySeconds = 1200;
 
         public void OnPageHandlerSelected(PageHandlerSelectedContext context) { }
 
