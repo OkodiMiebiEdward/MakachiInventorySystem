@@ -3648,6 +3648,24 @@ tbody tr td:last-child {
 .ct-series-b .ct-slice-donut {
   stroke: #007BFF;
 }
+
+/* Custom Page Styles - Sidebar and Layout Responsive Fixes */
+
+.custom-checkbox-lg {
+  width: 1.5em;
+  height: 1.5em;
+  min-width: 1.5em;
+  min-height: 1.5em;
+}
+
+/* Content alignment with sidebar for desktop views */
+@media (min-width: 768px) {
+  /* Pages with custom margins no longer need hardcoded values
+     The layout CSS now handles this via content-wrap and header margins */
+  main {
+    padding: 0;
+  }
+}
 .ct-series-c .ct-bar,
 .ct-series-c .ct-line,
 .ct-series-c .ct-point,
