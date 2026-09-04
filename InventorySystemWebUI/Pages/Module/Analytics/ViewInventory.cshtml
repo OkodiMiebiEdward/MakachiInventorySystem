@@ -8,21 +8,9 @@
     var quantities = Model.Inventory.Select(i => i.QuantityInStock).ToList();
 }
 
-<style>
-    @@media (min-width: 768px) {
-        .custom-margin {
-            margin-left: 150px;
-        }
-
-        .custom-width {
-            width: 650px;
-        }
-    }
-</style>
-
-<div class="container-fluid px-1 custom-margin">
+<div class="container-fluid px-1">
         <div class="content-body container">
-            <section class="card custom-width">
+            <section class="card">
                 <div style="">
                     <canvas id="inventoryChart" width="600" height="400"></canvas>
                 </div>
