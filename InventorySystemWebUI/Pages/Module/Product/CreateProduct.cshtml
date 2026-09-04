@@ -4,19 +4,7 @@
     ViewData["Title"] = "Create Product";
 }
 
-<style>
-    @@media (min-width: 768px) {
-        .custom-margin {
-            margin-left: 150px;
-        }
-
-        .custom-width {
-            width: 690px;
-        }
-    }
-</style>
-
-<div class="container-fluid px-1 custom-margin">
+<div class="container-fluid px-1">
     <div class="content-body container">
         <div class="content-header">
             <div class="row content-header-left col-md-8 col-12 mb-2 breadcrumb-new align-items-center d-flex">
@@ -33,7 +21,7 @@
             </div>
         </div>
 
-        <section class="card custom-width">
+        <section class="card">
             <form method="post">
                 <input type="hidden" value="@Model.ResponseModel.Status" id="status" />
                 <input type="hidden" value="@Model.ResponseModel.Description" id="description" />
