@@ -5,7 +5,7 @@ namespace InventorySystemWebUI.Filter
 {
     public class SessionCheckPageFilter : IPageFilter
     {
-        private const int TokenExpirySeconds = 1200;
+        private const int TokenExpirySeconds = 18_000;
 
         public void OnPageHandlerSelected(PageHandlerSelectedContext context) { }
 
@@ -38,6 +38,9 @@ namespace InventorySystemWebUI.Filter
                     context.Result = new RedirectToPageResult("/SessionExpired");
                     return;
                 }
+
+                // Sliding expiration: Reset the token issued time on each request
+                context.HttpContext.Session.SetString("AuthTokenIssuedAt", DateTime.UtcNow.Ticks.ToString());
             }
             else
             {
