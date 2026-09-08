@@ -27,7 +27,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v6
         with:
-          context: ./MakachiInventorySystem
+          context: .
           file: ./InventorySystemWebUI/Dockerfile
           push: true
           tags: |
