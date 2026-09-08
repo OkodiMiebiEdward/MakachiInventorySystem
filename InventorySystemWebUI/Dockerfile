@@ -16,7 +16,7 @@ RUN dotnet restore "InventorySystemWebUI/InventorySystemWebUI.csproj"
 # Copy rest of the solution and publish
 COPY . .
 WORKDIR "/src/InventorySystemWebUI"
-RUN dotnet publish "InventorySystemWebUI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet publish "InventorySystemWebUI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
