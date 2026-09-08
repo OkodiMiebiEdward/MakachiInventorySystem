@@ -4,8 +4,8 @@ on:
     branches:
       - main
 env:
-  DOCKERHUB_IMAGE: edwardmiebi/inventory-api 
-  AZURE_WEBAPP_NAME: Inventory-API
+  DOCKERHUB_IMAGE: edwardmiebi/makachi-inventory 
+  AZURE_WEBAPP_NAME: MakachiInventory
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -27,8 +27,8 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v6
         with:
-          context: ./WebServiceMakachi
-          file: ./WebServiceMakachi/InventoryAPI/Dockerfile
+          context: .
+          file: ./InventorySystemWebUI/Dockerfile
           push: true
           tags: |
             ${{ env.DOCKERHUB_IMAGE }}:${{ steps.meta.outputs.tag }}
