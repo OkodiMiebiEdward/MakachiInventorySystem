@@ -11,12 +11,12 @@ WORKDIR /src
 
 # Copy only csproj to leverage Docker layer caching for NuGet restore
 COPY ["InventorySystemWebUI/InventorySystemWebUI.csproj", "InventorySystemWebUI/"]
-RUN dotnet restore "./InventorySystemWebUI/InventorySystemWebUI.csproj"
+RUN dotnet restore "InventorySystemWebUI/InventorySystemWebUI.csproj"
 
 # Copy rest of the solution and publish
 COPY . .
 WORKDIR "/src/InventorySystemWebUI"
-RUN dotnet publish "./InventorySystemWebUI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet publish "InventorySystemWebUI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM base AS final
 WORKDIR /app
