@@ -1,4 +1,7 @@
-﻿toastr.options = {
+﻿// Add this once in a shared .d.ts file (e.g. Scripts/globals.d.ts), not here:
+// declare var bootstrap: any;
+
+toastr.options = {
     "closeButton": true,
     "debug": false,
     "newestOnTop": true,
@@ -13,10 +16,12 @@
 
 async function getDataFromModal(whatClicked: number) {
     let barcodenumber = jQuery("#barcodenumber").val();
+    const compModalEl = document.getElementById("compmodal")!;
+    const compModal = bootstrap.Modal.getOrCreateInstance(compModalEl);
 
     //Closing the Modal
     if (whatClicked == 0) {
-        $("#compmodal").modal('hide');
+        compModal.hide();
     }
     else {
         if (barcodenumber !== '') {
@@ -28,7 +33,7 @@ async function getDataFromModal(whatClicked: number) {
                     if (data && data.Html) {
                         $('#compmodal').empty();
                         $('#compmodal').append(data.Html);
-                        $("#compmodal").modal('show');
+                        compModal.show();
                         $('#discount').val(data.Discount); // Set the discount value
                         $('#price').val(data.Price);
                     }
@@ -36,7 +41,7 @@ async function getDataFromModal(whatClicked: number) {
             }
             catch (e) {
                 toastr.error("An error occurred, please try again.");
-                $("#compmodal").modal('hide');
+                compModal.hide();
             }
         }
         else {
@@ -47,7 +52,7 @@ async function getDataFromModal(whatClicked: number) {
     }
 };
 
-$('#cart').on('click',async function () {
+$('#cart').on('click', async function () {
     let barcode = jQuery('#barcodenumber').val() as string;
     let price = jQuery('#price').val() as string;
     let quantity = parseInt(jQuery('#quantity').val() as string);
@@ -65,7 +70,7 @@ $('#cart').on('click',async function () {
         toastr.error("Quantity cannot be 0 or less than 0.");
         return;
     }
-   
+
     try {
         const response = await fetch(`?handler=InitiateSale&discount=${discount}&priceSold=${price}&quantity=${quantity}&barcode=${barcode}`, { method: 'GET' });
         const json = await response.json();
@@ -151,12 +156,12 @@ interface innerTableData {
     Quantity: number,
     PriceSold: number,
     Discount: number,
-    FinalPrice:number
+    FinalPrice: number
 }
 
 interface TableData {
     Id: number,
-    SubData:innerTableData[]
+    SubData: innerTableData[]
 }
 
 function getDataFromTable(): TableData {

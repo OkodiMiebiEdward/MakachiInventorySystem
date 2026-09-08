@@ -12,8 +12,10 @@ toastr.options = {
 };
 async function getDataFromModal(whatClicked) {
     let barcodenumber = jQuery("#barcodenumber").val();
+    const compModalEl = document.getElementById("compmodal");
+    const compModal = bootstrap.Modal.getOrCreateInstance(compModalEl);
     if (whatClicked == 0) {
-        $("#compmodal").modal('hide');
+        compModal.hide();
     }
     else {
         if (barcodenumber !== '') {
@@ -25,7 +27,7 @@ async function getDataFromModal(whatClicked) {
                     if (data && data.Html) {
                         $('#compmodal').empty();
                         $('#compmodal').append(data.Html);
-                        $("#compmodal").modal('show');
+                        compModal.show();
                         $('#discount').val(data.Discount);
                         $('#price').val(data.Price);
                     }
@@ -33,7 +35,7 @@ async function getDataFromModal(whatClicked) {
             }
             catch (e) {
                 toastr.error("An error occurred, please try again.");
-                $("#compmodal").modal('hide');
+                compModal.hide();
             }
         }
         else {
