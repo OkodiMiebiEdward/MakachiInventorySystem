@@ -9,6 +9,12 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
+# Install Node.js (required by Microsoft.TypeScript.MSBuild)
+RUN apt-get update && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy only csproj to leverage Docker layer caching for NuGet restore
 COPY ["InventorySystemWebUI/InventorySystemWebUI.csproj", "InventorySystemWebUI/"]
 RUN dotnet restore "InventorySystemWebUI/InventorySystemWebUI.csproj"
@@ -22,6 +28,3 @@ FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "InventorySystemWebUI.dll"]
-
-
-
