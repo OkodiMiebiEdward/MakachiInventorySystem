@@ -2,7 +2,7 @@ name: Build and Deploy to Azure App Service
 on:
   push:
     branches:
-      - main
+      - master
 env:
   DOCKERHUB_IMAGE: edwardmiebi/makachi-inventory 
   AZURE_WEBAPP_NAME: MakachiInventory
