@@ -33,7 +33,7 @@ async function getDataFromModal(whatClicked: number) {
                     if (data && data.Html) {
                         $('#compmodal').empty();
                         $('#compmodal').append(data.Html);
-                        compModal.show();
+                        //$('#compmodal').show();
                         $('#discount').val(data.Discount); // Set the discount value
                         $('#price').val(data.Price);
                     }

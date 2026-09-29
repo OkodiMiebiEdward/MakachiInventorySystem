@@ -27,7 +27,6 @@ async function getDataFromModal(whatClicked) {
                     if (data && data.Html) {
                         $('#compmodal').empty();
                         $('#compmodal').append(data.Html);
-                        compModal.show();
                         $('#discount').val(data.Discount);
                         $('#price').val(data.Price);
                     }
